@@ -1,0 +1,14 @@
+{
+  "name": "press",
+  "version": "1.0.0",
+  "description": "blog based on vuepress",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs"
+  },
+  "author": "wch853@163.com",
+  "license": "ISC",
+  "dependencies": {}
+}
