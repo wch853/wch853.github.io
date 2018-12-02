@@ -42,7 +42,25 @@ module.exports = {
                     title: 'Java',
                     collapsable: true,
                     children: [
+                        ['并发编程（一）：并行计算概念', '并发编程（一）：并行计算概念'],
+                        ['并发编程（二）：JDK支持', '并发编程（二）：JDK支持'],
+                        ['并发编程（三）：锁的优化', '并发编程（三）：锁的优化'],
                         ['深入理解Java虚拟机', '深入理解Java虚拟机']
+                    ]
+                },
+                // {
+                //     title: '大数据',
+                //     collapsable: true,
+                //     children: [
+                //         ['大数据入门', '大数据入门']
+                //     ]
+                // },
+                {
+                    title: '微服务',
+                    collapsable: true,
+                    children: [
+                        ['微服务实践（一）：Docker入门', '微服务实践（一）：Docker入门'],
+                        ['微服务实践（二）：微服务与容器化', '微服务实践（二）：微服务与容器化']
                     ]
                 },
                 {

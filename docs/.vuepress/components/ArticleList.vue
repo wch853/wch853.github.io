@@ -41,7 +41,7 @@ export default {
     },
     mounted () {
         let allArticles = this.pages.filter(e => {
-            return e.path.startsWith('/posts/') && e.path !== '/posts/'
+            return e.path.startsWith('/posts/') && e.path !== '/posts/' && undefined != e.frontmatter.date
         })
         if (undefined != allArticles && 0 !== allArticles.length) {
             allArticles.sort((page1, page2) => {
@@ -175,5 +175,6 @@ a:focus {
   color: #2c3e50;
   margin: 0 0.25rem;
   color: #0c57a7;
+  margin-top: 0.2rem;
 }
 </style>

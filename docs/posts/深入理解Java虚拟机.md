@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 date: 2018-11-11
-desc: 《深入理解Java虚拟机》读书笔记
+desc: 《深入理解Java虚拟机》读书笔记。
 tags: JVM Java虚拟机 性能调优 垃圾回收
 ---
 # 深入理解Java虚拟机
