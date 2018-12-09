@@ -7,7 +7,7 @@ tags: JVM Java虚拟机 性能调优 垃圾回收
 # 深入理解Java虚拟机
 ## Java虚拟机
 Oracle有两款实现了 `Java SE` 的产品：`Java SE Development Kit(JDK)` 和 `Java SE Runtime Environment(JRE)`。
- `Jdk` 是 `JRE` 的超集，包含了 `JRE` 的所有内容，以及开发应用程序所需的编译器和调试器等工具。 `JRE` 提供了函数库，Java Virtual Machine(JVM)和其它用来运行Java应用程序的组件。
+ `Jdk` 是 `JRE` 的超集，包含了 `JRE` 的所有内容，以及开发应用程序所需的编译器和调试器等工具。 `JRE` 提供了函数库、`Java Virtual Machine(JVM)` 和其它用来运行Java应用程序的组件。
 
 ![Java SE8产品组件概念图](/img/jvm/Java%20SE产品组件.png)
 

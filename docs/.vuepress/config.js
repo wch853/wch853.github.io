@@ -33,6 +33,9 @@ module.exports = {
             text: '简书',
             link: 'https://www.jianshu.com/u/778216ebe79c'
         }, {
+            text: 'LeetCode',
+            link: 'https://leetcode-cn.com/wch853/'
+        }, {
             text: 'GitHub',
             link: 'https://github.com/wch853'
         }],
@@ -45,6 +48,7 @@ module.exports = {
                         ['并发编程（一）：并行计算概念', '并发编程（一）：并行计算概念'],
                         ['并发编程（二）：JDK支持', '并发编程（二）：JDK支持'],
                         ['并发编程（三）：锁的优化', '并发编程（三）：锁的优化'],
+                        ['并发编程（四）：并行模式与策略', '并发编程（四）：并行模式与策略'],
                         ['深入理解Java虚拟机', '深入理解Java虚拟机']
                     ]
                 },

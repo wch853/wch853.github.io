@@ -80,6 +80,7 @@ try {
 - 读-读：读与读之间不阻塞。
 - 读-写：读阻塞写，写阻塞读。
 - 写-写：写与写之间阻塞。
+
 如果在系统中，读操作次数远远大于写操作，此时使用重入锁或内部锁使得所有操作之间都是串行，这显然是不合理的，因此可以使用读写分离锁，允许多个线程同时读，读-写 与 写-写 仍是需要相互等待和持有锁的。
 ```java
 ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
@@ -247,6 +248,7 @@ public class BlockedThreadPoolExecutor extends ThreadPoolExecutor {
 - `NCPU`：CPU数量。
 - `UCPU`：目标CPU使用率（0 <= UCPU <= 1）。
 - `W/C`：等待时间与计算时间的比率
+
 为保持处理器达到期望的使用率，最优线程池大小为：`Nthreads = NCPU * UCPU * (1 + W/C)`。
 
 ## 并发容器
