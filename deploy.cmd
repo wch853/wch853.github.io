@@ -1,3 +1,7 @@
+git add .
+git commit -m "edit posts"
+git push origin dev
+
 cd dist
 echo hello
 git init
