@@ -1,8 +1,8 @@
 ---
 sidebarDepth: 2
 date: 2019-02-24
-desc: 从源码角度分析Spring Security过滤器链生成过程。
-tags: SpringSecurity 源码分析
+desc: 基于实际应用，从源码角度分析Spring Security过滤器链生成过程。
+tags: SpringSecurity 源码分析 过滤器
 ---
 
 # Spring Security 源码分析（一）：过滤器链
@@ -14,29 +14,30 @@ tags: SpringSecurity 源码分析
 引入 `spring-security` 包：
 
 ```xml
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
+  <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+      <version>2.1.3.RELEASE</version>
+  </dependency>
 ```
 
 对 `Web` 资源的控制通过 `WebSecurityConfiguration` 配置，其在启动时装配名为 `springSecurityFilterChain` 的 `bean`：
 
 ```java
-	@Bean(name = AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME)
-	public Filter springSecurityFilterChain() throws Exception {
-		boolean hasConfigurers = webSecurityConfigurers != null
-				&& !webSecurityConfigurers.isEmpty();
-		if (!hasConfigurers) {
-			WebSecurityConfigurerAdapter adapter = objectObjectPostProcessor
-					.postProcess(new WebSecurityConfigurerAdapter() {
-					});
+  @Bean(name = AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME)
+  public Filter springSecurityFilterChain() throws Exception {
+    boolean hasConfigurers = webSecurityConfigurers != null
+        && !webSecurityConfigurers.isEmpty();
+    if (!hasConfigurers) {
+      WebSecurityConfigurerAdapter adapter = objectObjectPostProcessor
+          .postProcess(new WebSecurityConfigurerAdapter() {
+          });
       // 应用 WebSecurityConfigurerAdapter 中的各项配置
-			webSecurity.apply(adapter);
-		}
+      webSecurity.apply(adapter);
+    }
     // 生成 Spring Security 过滤器链
-		return webSecurity.build();
-	}
+    return webSecurity.build();
+  }
 ```
 
 ### WebSecurityConfigurerAdapter 实现
@@ -51,11 +52,11 @@ tags: SpringSecurity 源码分析
 @ConditionalOnWebApplication(type = Type.SERVLET)
 public class SpringBootWebSecurityConfiguration {
 
-	@Configuration
-	@Order(SecurityProperties.BASIC_AUTH_ORDER)
-	static class DefaultConfigurerAdapter extends WebSecurityConfigurerAdapter {
+  @Configuration
+  @Order(SecurityProperties.BASIC_AUTH_ORDER)
+  static class DefaultConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
-	}
+  }
 
 }
 ```
@@ -65,61 +66,61 @@ public class SpringBootWebSecurityConfiguration {
 `WebSecurity` 实例 调用 `apply` 方法获取 `WebSecurityConfigurerAdapter` 中的配置，并调用 `build` 方法构造过滤器链，其实现为：
 
 ```java
-	public final O build() throws Exception {
-		if (this.building.compareAndSet(false, true)) {
-			this.object = doBuild();
-			return this.object;
-		}
-		throw new AlreadyBuiltException("This object has already been built");
-	}
+  public final O build() throws Exception {
+    if (this.building.compareAndSet(false, true)) {
+      this.object = doBuild();
+      return this.object;
+    }
+    throw new AlreadyBuiltException("This object has already been built");
+  }
 
   protected final O doBuild() throws Exception {
-		synchronized (configurers) {
-			buildState = BuildState.INITIALIZING;
+    synchronized (configurers) {
+      buildState = BuildState.INITIALIZING;
 
-			beforeInit();
-			init();
+      beforeInit();
+      init();
 
-			buildState = BuildState.CONFIGURING;
+      buildState = BuildState.CONFIGURING;
 
-			beforeConfigure();
-			configure();
+      beforeConfigure();
+      configure();
 
-			buildState = BuildState.BUILDING;
+      buildState = BuildState.BUILDING;
 
-			O result = performBuild();
+      O result = performBuild();
 
-			buildState = BuildState.BUILT;
+      buildState = BuildState.BUILT;
 
-			return result;
-		}
-	}
+      return result;
+    }
+  }
 
   /**
    * 内部配置初始化
    */
   private void init() throws Exception {
-		Collection<SecurityConfigurer<O, B>> configurers = getConfigurers();
+    Collection<SecurityConfigurer<O, B>> configurers = getConfigurers();
 
-		for (SecurityConfigurer<O, B> configurer : configurers) {
-			configurer.init((B) this);
-		}
+    for (SecurityConfigurer<O, B> configurer : configurers) {
+      configurer.init((B) this);
+    }
 
-		for (SecurityConfigurer<O, B> configurer : configurersAddedInInitializing) {
-			configurer.init((B) this);
-		}
-	}
+    for (SecurityConfigurer<O, B> configurer : configurersAddedInInitializing) {
+      configurer.init((B) this);
+    }
+  }
 
   /**
-   * 配置逻辑
-   */
-	private void configure() throws Exception {
-		Collection<SecurityConfigurer<O, B>> configurers = getConfigurers();
+    * 配置逻辑
+    */
+  private void configure() throws Exception {
+    Collection<SecurityConfigurer<O, B>> configurers = getConfigurers();
 
-		for (SecurityConfigurer<O, B> configurer : configurers) {
-			configurer.configure((B) this);
-		}
-	}
+    for (SecurityConfigurer<O, B> configurer : configurers) {
+      configurer.configure((B) this);
+    }
+  }
 ```
 
 可以看到构建操作为将通过 `apply` 方法应用进来的配置分别初始化和构建，链条为 `beforeInit -> init -> beforeConfigure -> configure -> performBuild`。`Spring Security` 中的 `AuthenticationManagerBuilder` （认证管理器生成配置）、`HttpSecurity` （过滤器管理器生成配置）、`WebSecurity` （过滤器生成配置） 都是继承 `AbstractConfiguredSecurityBuilder` 通过这个链条生成目标对象，这 3 个配置也是 `Spring Security` 的配置核心。
@@ -137,49 +138,49 @@ public class SpringBootWebSecurityConfiguration {
 来看看 `WebSecurityConfigurerAdapter` 关于认证管理器的组成：
 
 ```java
-	/**
-	 * 认证管理器，管理多种认证方式（AuthenticationProvider），进行实际的认证调用
-   */
-	private AuthenticationManager authenticationManager;
+  /**
+    * 认证管理器，管理多种认证方式（AuthenticationProvider），进行实际的认证调用
+    */
+  private AuthenticationManager authenticationManager;
 
   /**
-   * 认证配置，装配认证方式，通过 @Autowired 自动注入
-   */
+    * 认证配置，装配认证方式，通过 @Autowired 自动注入
+    */
   private AuthenticationConfiguration authenticationConfiguration;
 
   /**
-   * 同于生成系统配置的认证管理器
-   */
-	private AuthenticationManagerBuilder authenticationBuilder;
+    * 同于生成系统配置的认证管理器
+    */
+  private AuthenticationManagerBuilder authenticationBuilder;
 
-	/**
-	 * 用于生成开发者可干预的认证管理器
-   */
-	private AuthenticationManagerBuilder localConfigureAuthenticationBldr;
+  /**
+    * 用于生成开发者可干预的认证管理器
+    */
+  private AuthenticationManagerBuilder localConfigureAuthenticationBldr;
 
-	/**
-	 * true - 不使用可干预的认证管理器生成方式
-   */
-	private boolean disableLocalConfigureAuthenticationBldr;
+  /**
+    * true - 不使用可干预的认证管理器生成方式
+    */
+  private boolean disableLocalConfigureAuthenticationBldr;
 ```
 
 `WebSecurityConfigurerAdapter` 在初始化过程中会调用 `authenticationManager` 方法配置认证管理器，当 `disableLocalConfigureAuthenticationBldr` 为 `true` 时会调用 `AuthenticationConfiguration#getAuthenticationManager` 生成认证管理器，当为 `false` 时会使用开发者干预过的 `localConfigureAuthenticationBldr` 生成认证管理器。
 
 ```java
-	protected AuthenticationManager authenticationManager() throws Exception {
-		if (!authenticationManagerInitialized) {
+  protected AuthenticationManager authenticationManager() throws Exception {
+    if (!authenticationManagerInitialized) {
       // void configure(AuthenticationManagerBuilder auth); 开发者可以重载此方法干预认证管理器的成逻辑
-			configure(localConfigureAuthenticationBldr);
-			if (disableLocalConfigureAuthenticationBldr) {
+      configure(localConfigureAuthenticationBldr);
+      if (disableLocalConfigureAuthenticationBldr) {
         // 不需要干预，使用系统配置逻辑
-				authenticationManager = authenticationConfiguration.getAuthenticationManager();
-			} else {
-				authenticationManager = localConfigureAuthenticationBldr.build();
-			}
-			authenticationManagerInitialized = true;
-		}
-		return authenticationManager;
-	}
+        authenticationManager = authenticationConfiguration.getAuthenticationManager();
+      } else {
+        authenticationManager = localConfigureAuthenticationBldr.build();
+      }
+      authenticationManagerInitialized = true;
+    }
+    return authenticationManager;
+  }
 ```
 
 ##### 认证管理器的系统配置逻辑
@@ -205,17 +206,34 @@ public class SpringBootWebSecurityConfiguration {
   }
 ```
 
+`UserDetailsService` 的作用是通过用户名查找用户信息：
+
+```java
+public interface UserDetailsService {
+  // 根据用户名查找用户信息
+	UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+}
+```
+
+`Spring Security` 关于 `UserDetails` 的默认实现为 `org.springframework.security.core.userdetails.User`，它有一个构造方法，可以构造用户名、密码、是否激活、是否过期、是否凭证过期、是否锁定：
+
+```java
+public User(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities);
+```
+
 `DaoAuthenticationProvider` 继承自 `AbstractUserDetailsAuthenticationProvider`，这个抽象类实现了 `AuthenticationProvider` 接口的 `authenticate` 方法，此方法会调用子类实现的 `retrieveUser` 方法。`DaoAuthenticationProvider` 的实现是调用注入进来的 `UserDetailsService` 的 `loadUserByUsername` 方法。
 
 ```java
-	protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
-		// ...
+  protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+    // ...
 
     UserDetails loadedUser = this.getUserDetailsService().loadUserByUsername(username);
 
     // ...
-	}
+  }
 ```
+
+取出账户信息后，`AbstractUserDetailsAuthenticationProvider#authenticate` 方法进行 `check`，如果密码错误，或者未激活、过期等都会抛出 `AuthenticationException` 异常。
 
 ![DaoAuthenticationProvider](/img/security/DaoAuthenticationProvider.png)
 
@@ -266,13 +284,61 @@ public class SpringBootWebSecurityConfiguration {
 `AuthenticationProvider`，因此往后的认证逻辑就与系统的默认配置相符了。
 
 ```java
-	public <T extends UserDetailsService> DaoAuthenticationConfigurer<AuthenticationManagerBuilder, T> userDetailsService(T userDetailsService) throws Exception {
-		this.defaultUserDetailsService = userDetailsService;
-		return apply(new DaoAuthenticationConfigurer<>(userDetailsService));
-	}
+  public <T extends UserDetailsService> DaoAuthenticationConfigurer<AuthenticationManagerBuilder, T> userDetailsService(T userDetailsService) throws Exception {
+    this.defaultUserDetailsService = userDetailsService;
+    return apply(new DaoAuthenticationConfigurer<>(userDetailsService));
+  }
 ```
 
 在 `AuthenticationManagerBuilder` 配置完成后，`build` 方法会将所有的 `AuthenticationProvider` 交给 `ProviderManager` 管理。在进行认证时，`ProviderManager` 会逐个调用认证逻辑进行认证，有一个通过即认证成功。
+
+##### 密码加密管理
+
+`Spring Security` 默认要求用户密码加密。以上文中提到的 `UserDetailsServiceAutoConfiguration` 为例，生成的密码需要配置 `{noop}` 前缀：
+
+```java
+  /**
+   * 随机密码配置
+   */
+	private String getOrDeducePassword(SecurityProperties.User user, PasswordEncoder encoder) {
+		String password = user.getPassword();
+		// ...
+
+		return "{noop}" + password;
+	}
+```
+
+这是因为如果不配置系统默认加密方式 `PasswordEncoder`，认证流程的校验密码环节会读取密码的前缀来判断密码使用的是哪种加密方式：
+
+```java
+  public boolean matches(CharSequence rawPassword, String prefixEncodedPassword) {
+    // ...
+
+    // 获取密码前缀（加密方式）
+    String id = extractId(prefixEncodedPassword);
+    PasswordEncoder delegate = this.idToPasswordEncoder.get(id);
+    if (delegate == null) {
+      // ...
+      // 查不到前缀或者找不到前缀对应的加密方式，会抛出异常，因此是强制加密的
+    }
+    String encodedPassword = extractEncodedPassword(prefixEncodedPassword);
+    return delegate.matches(rawPassword, encodedPassword);
+  }
+```
+
+在项目开发中，为每个密码密文加一个前缀是不明智的，因此开发者如果需要自定义用户加载方式，可以在配置的同时手动指定加密方式：
+
+```java
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    // 自定义认证服务
+    auth.userDetailsService(userDetailsService)
+            // 配置 bCrypt 作为密码加密方式
+            .passwordEncoder(new BCryptPasswordEncoder());
+  }
+```
+
+`BCryptPasswordEncoder` 在加密时会随机生成盐值，在与密码明文进行匹配时，可以从密文中读取到使用的盐值，对明文加密后匹配。随机生成盐值的方式大大增强了密码的安全性。
 
 ### 过滤器管理器 HttpSecurity 配置
 
@@ -281,59 +347,59 @@ public class SpringBootWebSecurityConfiguration {
 
 ```java
   /**
-   * 创建 HttpSecurity 实例
-   */
-	protected final HttpSecurity getHttp() throws Exception {
-		// ...
+    * 创建 HttpSecurity 实例
+    */
+  protected final HttpSecurity getHttp() throws Exception {
+    // ...
 
-		http = new HttpSecurity(objectPostProcessor, authenticationBuilder, sharedObjects);
-		if (!disableDefaults) {
-			http
+    http = new HttpSecurity(objectPostProcessor, authenticationBuilder, sharedObjects);
+    if (!disableDefaults) {
+      http
         // csrf 跨站请求伪造保护
-				.csrf().and()
+        .csrf().and()
         // 配置异步支持
-				.addFilter(new WebAsyncManagerIntegrationFilter())
+        .addFilter(new WebAsyncManagerIntegrationFilter())
         // security 异常处理
-				.exceptionHandling().and()
+        .exceptionHandling().and()
         // 将请求的 header 写入响应的 header
-				.headers().and()
+        .headers().and()
         // session 管理器，可以配置一个用户仅有一个会话有效
-				.sessionManagement().and()
+        .sessionManagement().and()
         // 保存认证信息（session维度）
-				.securityContext().and()
+        .securityContext().and()
         // 保存 request cache
-				.requestCache().and()
+        .requestCache().and()
         // 匿名认证配置
-				.anonymous().and()
+        .anonymous().and()
         // 配置重载 servlet 相关安全方法
-				.servletApi().and()
+        .servletApi().and()
         // 表单登录页配置
-				.apply(new DefaultLoginPageConfigurer<>()).and()
+        .apply(new DefaultLoginPageConfigurer<>()).and()
         // 匹配 /logout 做登出逻辑，成功后跳转登录页
-				.logout();
+        .logout();
 
       // ...
-		}
+    }
     // HttpSecurity 扩展配置
-		configure(http);
-		return http;
-	}
+    configure(http);
+    return http;
+  }
 
   /**
    * HttpSecurity 扩展配置
    */
-	protected void configure(HttpSecurity http) throws Exception {
-		http
+  protected void configure(HttpSecurity http) throws Exception {
+    http
       // 约束基于 HttpServletRequest 的请求
-			.authorizeRequests()
+      .authorizeRequests()
         // 任何请求 需要认证
-				.anyRequest().authenticated()
-				.and()
+        .anyRequest().authenticated()
+        .and()
       // 表单登录
-			.formLogin().and()
+      .formLogin().and()
       // http basic 认证
-			.httpBasic();
-	}
+      .httpBasic();
+  }
 ```
 
 与配置认证管理器相同的是，在配置 `HttpSecurity` 的过程中，留有一个名为 `configure` 的方法供开发者配置。默认的配置方法拦截了所有请求，要求必须经过身份认证才能正确访问 `web` 资源，默认有表单登录和 `http basic` 两种认证方式可以选择。`HttpSecurity` 提供的大多数配置方法，都是通过过滤器实现的。
@@ -345,9 +411,9 @@ public class SpringBootWebSecurityConfiguration {
 - `UsernamePasswordAuthenticationFilter`：在创建过滤器时默认使用 `/login POST` 作为表单登录请求，这个过滤器的过滤逻辑就是调用上文中配置的 `AuthenticationManager` 进行认证。
 
 ```java
-	public UsernamePasswordAuthenticationFilter() {
-		super(new AntPathRequestMatcher("/login", "POST"));
-	}
+  public UsernamePasswordAuthenticationFilter() {
+    super(new AntPathRequestMatcher("/login", "POST"));
+  }
 ```
 
 如果认证成功，默认会保存认证信息，并重定向到相应的请求地址；如果认证失败，默认会重定向到登录页面。
@@ -355,26 +421,26 @@ public class SpringBootWebSecurityConfiguration {
 - `DefaultLoginPageGeneratingFilter`：用于配置登录页面，登录页面默认的登录、登出、登录错误地址分别为 `/login /login?logout /login?error`，其初始化配置在 `HttpSecurity` 的默认配置中。过滤逻辑为当请求为这 3 个地址时，会生成一个表单登录的 `HTML` 并立即返回。
 
 ```java
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
-			throws IOException, ServletException {
-		HttpServletRequest request = (HttpServletRequest) req;
-		HttpServletResponse response = (HttpServletResponse) res;
+  public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+      throws IOException, ServletException {
+    HttpServletRequest request = (HttpServletRequest) req;
+    HttpServletResponse response = (HttpServletResponse) res;
 
-		boolean loginError = isErrorPage(request);
-		boolean logoutSuccess = isLogoutSuccess(request);
+    boolean loginError = isErrorPage(request);
+    boolean logoutSuccess = isLogoutSuccess(request);
     // 登录、登出或登录失败时跳转到登录页。
-		if (isLoginUrlRequest(request) || loginError || logoutSuccess) {
+    if (isLoginUrlRequest(request) || loginError || logoutSuccess) {
       // 生成 HTML 表单
-			String loginPageHtml = generateLoginPageHtml(request, loginError, logoutSuccess);
-			response.setContentType("text/html;charset=UTF-8");
-			response.setContentLength(loginPageHtml.getBytes(StandardCharsets.UTF_8).length);
-			response.getWriter().write(loginPageHtml);
+      String loginPageHtml = generateLoginPageHtml(request, loginError, logoutSuccess);
+      response.setContentType("text/html;charset=UTF-8");
+      response.setContentLength(loginPageHtml.getBytes(StandardCharsets.UTF_8).length);
+      response.getWriter().write(loginPageHtml);
 
-			return;
-		}
+      return;
+    }
 
-		chain.doFilter(request, response);
-	}
+    chain.doFilter(request, response);
+  }
 ```
 
 #### http basic 认证
@@ -396,37 +462,37 @@ public class SpringBootWebSecurityConfiguration {
   SecurityContextHolder.setContext(contextBeforeChainExecution);
 ```
 
-在 `UsernamePasswordAuthenticationFilter` 中，如果认证成功，则会调用 `successfulAuthentication` 方法，将认证成功的 `Authentication` 信息放入 `SecurityContextHolder` 中。开发者由此可以使用 `SecurityContextHolder.getContext().getAuthentication();` 获取当前会话的认证用户信息。
+在 `UsernamePasswordAuthenticationFilter` 中，如果认证成功，则会调用 `successfulAuthentication` 方法，将认证成功的 `Authentication` 信息放入 `SecurityContextHolder` 中。开发者由此可以使用 `SecurityContextHolder.getContext().getAuthentication();` 获取当前会话的认证用户信息。由于认证信息存放在 `session` 中，一旦用户认证成功，当访问其它请求时，经由此过滤器时，就可以直接取得认证信息，安全通过过滤器链。
 
 #### authorizeRequests 最后的守门员
 
 在经历一系列过滤逻辑之后，请求来到 `spring security` 最后的过滤器 `FilterSecurityInterceptor`，此过滤器通过调用 `authorizeRequests` 方法加载 `ExpressionUrlAuthorizationConfigurer` 配置：
 
 ```java
-	public void configure(H http) throws Exception {
-		// ...
+  public void configure(H http) throws Exception {
+    // ...
 
-		FilterSecurityInterceptor securityInterceptor = createFilterSecurityInterceptor(
-				http, metadataSource, http.getSharedObject(AuthenticationManager.class));
+    FilterSecurityInterceptor securityInterceptor = createFilterSecurityInterceptor(
+        http, metadataSource, http.getSharedObject(AuthenticationManager.class));
 
     // ...
 
-		http.addFilter(securityInterceptor);
-		http.setSharedObject(FilterSecurityInterceptor.class, securityInterceptor);
-	}
+    http.addFilter(securityInterceptor);
+    http.setSharedObject(FilterSecurityInterceptor.class, securityInterceptor);
+  }
 
-	private FilterSecurityInterceptor createFilterSecurityInterceptor(H http,
-			FilterInvocationSecurityMetadataSource metadataSource,
-			AuthenticationManager authenticationManager) throws Exception {
-		FilterSecurityInterceptor securityInterceptor = new FilterSecurityInterceptor();
-		securityInterceptor.setSecurityMetadataSource(metadataSource);
-    // 创建权限验证配置，默认为 AffirmativeBased，即满足一项则验权成功
-		securityInterceptor.setAccessDecisionManager(getAccessDecisionManager(http));
+  private FilterSecurityInterceptor createFilterSecurityInterceptor(H http,
+      FilterInvocationSecurityMetadataSource metadataSource,
+      AuthenticationManager authenticationManager) throws Exception {
+    FilterSecurityInterceptor securityInterceptor = new FilterSecurityInterceptor();
+    securityInterceptor.setSecurityMetadataSource(metadataSource);
+    // 创建权限验证配置，默认为 AffirmativeBased，即满足一项则鉴权成功
+    securityInterceptor.setAccessDecisionManager(getAccessDecisionManager(http));
     // 配置认证管理器
-		securityInterceptor.setAuthenticationManager(authenticationManager);
-		securityInterceptor.afterPropertiesSet();
-		return securityInterceptor;
-	}
+    securityInterceptor.setAuthenticationManager(authenticationManager);
+    securityInterceptor.afterPropertiesSet();
+    return securityInterceptor;
+  }
 ```
 
 在此过滤器的逻辑中，视图对此次访问进行权限验证，如果无权限，则会抛出 `AccessDeniedException`：
@@ -445,76 +511,76 @@ public class SpringBootWebSecurityConfiguration {
 一旦抛出了异常，顺序排在 `FilterSecurityInterceptor` 前一位的过滤器 `ExceptionTranslationFilter` 正好就能捕捉到此异常。此过滤器在 `HttpSecurity` 通过调用`exceptionHandling` 方法配置 `ExceptionHandlingConfigurer` 声明。过滤逻辑如下：
 
 ```java
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
-			throws IOException, ServletException {
-		HttpServletRequest request = (HttpServletRequest) req;
-		HttpServletResponse response = (HttpServletResponse) res;
+  public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+      throws IOException, ServletException {
+    HttpServletRequest request = (HttpServletRequest) req;
+    HttpServletResponse response = (HttpServletResponse) res;
 
-		try {
-			chain.doFilter(request, response);
+    try {
+      chain.doFilter(request, response);
 
-			logger.debug("Chain processed normally");
-		} catch (IOException ex) {
-			throw ex;
-		} catch (Exception ex) {
+      logger.debug("Chain processed normally");
+    } catch (IOException ex) {
+      throw ex;
+    } catch (Exception ex) {
       // 捕捉 FilterSecurityInterceptor 过滤逻辑抛出的异常
-			// ...
+      // ...
 
-			if (ase == null) {
-				ase = (AccessDeniedException) throwableAnalyzer.getFirstThrowableOfType(
-						AccessDeniedException.class, causeChain);
-			}
+      if (ase == null) {
+        ase = (AccessDeniedException) throwableAnalyzer.getFirstThrowableOfType(
+            AccessDeniedException.class, causeChain);
+      }
 
-			if (ase != null) {
-				// ...
+      if (ase != null) {
+        // ...
         // 捕捉到 AccessDeniedException
-				handleSpringSecurityException(request, response, chain, ase);
-			}
-			else {
-				// ...
-			}
-		}
-	}
+        handleSpringSecurityException(request, response, chain, ase);
+      }
+      else {
+        // ...
+      }
+    }
+  }
 
-	private void handleSpringSecurityException(HttpServletRequest request,
-			HttpServletResponse response, FilterChain chain, RuntimeException exception)
-			throws IOException, ServletException {
-		if (exception instanceof AuthenticationException) {
-			// ...
+  private void handleSpringSecurityException(HttpServletRequest request,
+      HttpServletResponse response, FilterChain chain, RuntimeException exception)
+      throws IOException, ServletException {
+    if (exception instanceof AuthenticationException) {
+      // ...
       // 认证异常
-			sendStartAuthentication(request, response, chain,
-					(AuthenticationException) exception);
-		} else if (exception instanceof AccessDeniedException) {
+      sendStartAuthentication(request, response, chain,
+          (AuthenticationException) exception);
+    } else if (exception instanceof AccessDeniedException) {
       // 权限异常
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			if (authenticationTrustResolver.isAnonymous(authentication) || authenticationTrustResolver.isRememberMe(authentication)) {
-				// ...
-				sendStartAuthentication(request, response, chain,
-						new InsufficientAuthenticationException(
-							messages.getMessage(
-								"ExceptionTranslationFilter.insufficientAuthentication",
-								"Full authentication is required to access this resource")));
-			}
-			else {
-				// ...
+      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+      if (authenticationTrustResolver.isAnonymous(authentication) || authenticationTrustResolver.isRememberMe(authentication)) {
+        // ...
+        sendStartAuthentication(request, response, chain,
+            new InsufficientAuthenticationException(
+              messages.getMessage(
+                "ExceptionTranslationFilter.insufficientAuthentication",
+                "Full authentication is required to access this resource")));
+      }
+      else {
+        // ...
         // 其它异常
-				accessDeniedHandler.handle(request, response,
-						(AccessDeniedException) exception);
-			}
-		}
-	}
+        accessDeniedHandler.handle(request, response,
+            (AccessDeniedException) exception);
+      }
+    }
+  }
 
-	protected void sendStartAuthentication(HttpServletRequest request,
-			HttpServletResponse response, FilterChain chain,
-			AuthenticationException reason) throws ServletException, IOException {
-		// ...
-		SecurityContextHolder.getContext().setAuthentication(null);
+  protected void sendStartAuthentication(HttpServletRequest request,
+      HttpServletResponse response, FilterChain chain,
+      AuthenticationException reason) throws ServletException, IOException {
+    // ...
+    SecurityContextHolder.getContext().setAuthentication(null);
     // 缓存被中断的请求
-		requestCache.saveRequest(request, response);
-		// ...
+    requestCache.saveRequest(request, response);
+    // ...
     // 错误处理
-		authenticationEntryPoint.commence(request, response, reason);
-	}
+    authenticationEntryPoint.commence(request, response, reason);
+  }
 ```
 
 `ExceptionTranslationFilter` 对 `AuthenticationException` 、 `AccessDeniedException` 和其它异常分别处理。`FormLoginConfigurer` 在初始化调用 `init` 方法时，对 `ExceptionTranslationFilter` 配置了 `LoginUrlAuthenticationEntryPoint`，因此对于认证和授权异常，会将请求重定向到登录页面。而对于其它异常，使用 `AccessDeniedHandlerImpl`，如果有错误页面，跳转到错误页面；否则发送 `403` 错误给客户端。
@@ -535,25 +601,25 @@ public class SpringBootWebSecurityConfiguration {
 完成加载 `WebSecurityConfigurerAdapter` 中的配置后，进入 `WebSecurity#performBuild`，生成真正的安全过滤器链：
 
 ```java
-	protected Filter performBuild() throws Exception {
-		// ...
+  protected Filter performBuild() throws Exception {
+    // ...
 
-		int chainSize = ignoredRequests.size() + securityFilterChainBuilders.size();
-		List<SecurityFilterChain> securityFilterChains = new ArrayList<>(chainSize);
+    int chainSize = ignoredRequests.size() + securityFilterChainBuilders.size();
+    List<SecurityFilterChain> securityFilterChains = new ArrayList<>(chainSize);
     // 上文配置的需要忽略的请求
-		for (RequestMatcher ignoredRequest : ignoredRequests) {
-			securityFilterChains.add(new DefaultSecurityFilterChain(ignoredRequest));
-		}
+    for (RequestMatcher ignoredRequest : ignoredRequests) {
+      securityFilterChains.add(new DefaultSecurityFilterChain(ignoredRequest));
+    }
     // 上文配置的 HttpSecurity 实例
-		for (SecurityBuilder<? extends SecurityFilterChain> securityFilterChainBuilder : securityFilterChainBuilders) {
+    for (SecurityBuilder<? extends SecurityFilterChain> securityFilterChainBuilder : securityFilterChainBuilders) {
       // 调用 build 方法生成 DefaultSecurityFilterChain
-			securityFilterChains.add(securityFilterChainBuilder.build());
-		}
+      securityFilterChains.add(securityFilterChainBuilder.build());
+    }
     // 过滤器链代理
-		FilterChainProxy filterChainProxy = new FilterChainProxy(securityFilterChains);
+    FilterChainProxy filterChainProxy = new FilterChainProxy(securityFilterChains);
 
     // ...
-	}
+  }
 ```
 
 ### FilterChainProxy 执行各过滤器
@@ -563,11 +629,11 @@ public class SpringBootWebSecurityConfiguration {
 ```java
   private FilterComparator comparator = new FilterComparator();
 
-	protected DefaultSecurityFilterChain performBuild() throws Exception {
+  protected DefaultSecurityFilterChain performBuild() throws Exception {
     // 先对配置的各过滤器进行排序，再加到过滤器链中
-		Collections.sort(filters, comparator);
-		return new DefaultSecurityFilterChain(requestMatcher, filters);
-	}
+    Collections.sort(filters, comparator);
+    return new DefaultSecurityFilterChain(requestMatcher, filters);
+  }
 ```
 
 过滤器过滤顺序排序依赖 `FilterComparator`。自此，`springSecurityFilterChain` 配置完成并被加入全局请求过滤器列表。
@@ -575,14 +641,14 @@ public class SpringBootWebSecurityConfiguration {
 当请求经由 `FilterChainProxy` 过滤时，先根据 `request` 匹配过滤器：
 
 ```java
-	private List<Filter> getFilters(HttpServletRequest request) {
-		for (SecurityFilterChain chain : filterChains) {
-			if (chain.matches(request)) {
-				return chain.getFilters();
-			}
-		}
-		return null;
-	}
+  private List<Filter> getFilters(HttpServletRequest request) {
+    for (SecurityFilterChain chain : filterChains) {
+      if (chain.matches(request)) {
+        return chain.getFilters();
+      }
+    }
+    return null;
+  }
 ```
 
 当请求配置为忽略，会匹配到无过滤器的 `DefaultSecurityFilterChain`，因此无需经历 `Spring Security` 各过滤器；否则走正常过滤逻辑。
@@ -659,5 +725,6 @@ public class SpringBootWebSecurityConfiguration {
 - `AuthenticationManager`：认证管理器，负责对用户身份进行认证。
 - `AuthenticationProvider`：认证逻辑具体实现，由认证管理器调用。
 - `UserDetailsService`：通过 `username` 认证，包装成 `AuthenticationProvider` 使用。
+- `SecurityContextPersistenceFilter`：从会话中加载有效认证信息或创建默认认证信息上下文。
 - `FilterSecurityInterceptor`：最终决定是否放行请求，如果需要认证而未认证，或没有相应的权限，都会判断请求失败。
 - `FilterChainProxy`：`Spring Security` 过滤器代理，关于安全的过滤逻辑均在此过滤器中执行，执行完成后才回到 `Spring MVC` 过滤器链中继续执行。

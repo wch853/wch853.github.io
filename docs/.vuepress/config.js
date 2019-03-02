@@ -53,7 +53,8 @@ module.exports = {
           title: 'Spring Security',
           collapsable: true,
           children: [
-            ['Spring Security 源码分析（一）：过滤器链', 'Spring Security 源码分析（一）：过滤器链']
+            ['Spring Security 源码分析（一）：过滤器链', 'Spring Security 源码分析（一）：过滤器链'],
+            ['Spring Security 源码分析（二）：表单登录', 'Spring Security 源码分析（二）：表单登录']
           ]
         },
         // {
