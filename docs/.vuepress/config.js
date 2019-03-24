@@ -53,8 +53,11 @@ module.exports = {
           title: 'Spring Security',
           collapsable: true,
           children: [
-            ['Spring Security 源码分析（一）：过滤器链', 'Spring Security 源码分析（一）：过滤器链'],
-            ['Spring Security 源码分析（二）：表单登录', 'Spring Security 源码分析（二）：表单登录']
+            ['SpringSecurity源码分析（一）：过滤器链', 'Spring Security 源码分析（一）：过滤器链'],
+            ['SpringSecurity源码分析（二）：表单登录', 'Spring Security 源码分析（二）：表单登录'],
+            ['SpringSecurity源码分析（三）：授权管理', 'Spring Security 源码分析（三）：授权管理'],
+            ['SpringSecurity源码分析（四）：OAth2实现', 'Spring Security 源码分析（四）：OAth2实现'],
+            ['SpringSecurity源码分析（五）：JWT实现', 'Spring Security 源码分析（五）：JWT实现']
           ]
         },
         // {
@@ -79,7 +82,14 @@ module.exports = {
             ['使用云开发构建多媒体小程序', '使用云开发构建多媒体小程序']
           ]
         }
-      ]
+      ],
+      '/project/': [{
+        title: 'dmall商城',
+        collapsable: true,
+        children: [
+          ['基于SpringBoot全家桶搭建项目后端工程', '基于SpringBoot全家桶搭建项目后端工程']
+        ]
+      }]
     }
   }
 }
