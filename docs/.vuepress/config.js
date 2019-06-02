@@ -39,25 +39,39 @@ module.exports = {
     accentColor: '#2c3e50',
     sidebar: {
       '/posts/': [{
-          title: 'Java并发编程',
+          title: 'Java虚拟机',
           collapsable: true,
           children: [
-            ['并发编程（一）：并行计算概念', '并发编程（一）：并行计算概念'],
-            ['并发编程（二）：JDK支持', '并发编程（二）：JDK支持'],
-            ['并发编程（三）：锁的优化', '并发编程（三）：锁的优化'],
-            ['并发编程（四）：并行模式与策略', '并发编程（四）：并行模式与策略'],
-            ['深入理解Java虚拟机（一）：自动内存管理机制', '深入理解Java虚拟机（一）：自动内存管理机制']
+            ['jvm/深入理解Java虚拟机（一）：自动内存管理机制', '深入理解Java虚拟机（一）：自动内存管理机制']
           ]
         },
         {
-          title: 'Spring Security',
+          title: 'Java并发编程',
           collapsable: true,
           children: [
-            ['SpringSecurity源码分析（一）：过滤器链', 'Spring Security 源码分析（一）：过滤器链'],
-            ['SpringSecurity源码分析（二）：表单登录', 'Spring Security 源码分析（二）：表单登录'],
-            ['SpringSecurity源码分析（三）：授权管理', 'Spring Security 源码分析（三）：授权管理'],
-            ['SpringSecurity源码分析（四）：OAth2实现', 'Spring Security 源码分析（四）：OAth2实现'],
-            ['SpringSecurity源码分析（五）：JWT实现', 'Spring Security 源码分析（五）：JWT实现']
+            ['concurrent/并发编程（一）：并行计算概念', '并发编程（一）：并行计算概念'],
+            ['concurrent/并发编程（二）：JDK支持', '并发编程（二）：JDK支持'],
+            ['concurrent/并发编程（三）：锁的优化', '并发编程（三）：锁的优化'],
+            ['concurrent/并发编程（四）：并行模式与策略', '并发编程（四）：并行模式与策略']
+          ]
+        },
+        {
+          title: 'MyBatis 源码分析',
+          collapsable: true,
+          children: [
+            ['mybatis/MyBatis源码分析（一）：MyBatis简介和整体架构', 'MyBatis 源码分析（一）：MyBatis 简介和整体架构'],
+            ['mybatis/MyBatis源码分析（二）：反射模块', 'MyBatis 源码分析（二）：反射模块']
+          ]
+        },
+        {
+          title: 'Spring Security 源码分析',
+          collapsable: true,
+          children: [
+            ['security/SpringSecurity源码分析（一）：过滤器链', 'Spring Security 源码分析（一）：过滤器链'],
+            ['security/SpringSecurity源码分析（二）：表单登录', 'Spring Security 源码分析（二）：表单登录'],
+            ['security/SpringSecurity源码分析（三）：授权管理', 'Spring Security 源码分析（三）：授权管理'],
+            ['security/SpringSecurity源码分析（四）：OAth2实现', 'Spring Security 源码分析（四）：OAth2实现'],
+            ['security/SpringSecurity源码分析（五）：JWT实现', 'Spring Security 源码分析（五）：JWT实现']
           ]
         },
         // {
@@ -71,15 +85,15 @@ module.exports = {
           title: '微服务',
           collapsable: true,
           children: [
-            ['微服务实践（一）：Docker入门', '微服务实践（一）：Docker入门'],
-            ['微服务实践（二）：微服务与容器化', '微服务实践（二）：微服务与容器化']
+            ['microservice/微服务实践（一）：Docker入门', '微服务实践（一）：Docker入门'],
+            ['microservice/微服务实践（二）：微服务与容器化', '微服务实践（二）：微服务与容器化']
           ]
         },
         {
           title: '微信小程序',
           collapsable: true,
           children: [
-            ['使用云开发构建多媒体小程序', '使用云开发构建多媒体小程序']
+            ['mp/使用云开发构建多媒体小程序', '使用云开发构建多媒体小程序']
           ]
         }
       ],

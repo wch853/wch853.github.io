@@ -3,6 +3,8 @@
 `dmall` 前后端分离仿电商项目。
 本项目技术栈选型的第一要素是—— `潮`。
 
+[GitHub](https://github.com/wch853/dmall)
+
 ## 技术栈
 
 - 后端：SpringBoot、MySQL、Redis、Shiro
