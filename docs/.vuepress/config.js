@@ -60,7 +60,8 @@ module.exports = {
           collapsable: true,
           children: [
             ['mybatis/MyBatis源码分析（一）：MyBatis简介和整体架构', 'MyBatis 源码分析（一）：MyBatis 简介和整体架构'],
-            ['mybatis/MyBatis源码分析（二）：反射模块', 'MyBatis 源码分析（二）：反射模块']
+            ['mybatis/MyBatis源码分析（二）：反射模块', 'MyBatis 源码分析（二）：反射模块'],
+            ['mybatis/MyBatis源码分析（三）：基础支持模块', 'MyBatis 源码分析（三）：基础支持模块']
           ]
         },
         {

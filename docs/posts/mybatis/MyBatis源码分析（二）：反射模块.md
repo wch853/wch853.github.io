@@ -9,9 +9,9 @@ tags: MyBatis 源码 反射
 
 `MyBatis` 在进行参数处理、结果映射时等操作时，会涉及大量的反射操作。为了简化这些反射相关操作，`MyBatis` 在 `org.apache.ibatis.reflection` 包下提供了专门的反射模块，对反射操作做了近一步封装，提供了更为简洁的 `API`。
 
-## Reflector
+## 缓存类的元信息
 
-`MyBatis` 提供 `Reflector` 类来缓存类的字段名和 getter/setter 方法的元信息，使得反射时有更好的性能。使用方式是将原始类对象传入其构造方法，生成 `Reflector` 对象。
+`MyBatis` 提供 `Reflector` 类来缓存类的字段名和 `getter/setter` 方法的元信息，使得反射时有更好的性能。使用方式是将原始类对象传入其构造方法，生成 `Reflector` 对象。
 
 ```java
   public Reflector(Class<?> clazz) {
@@ -151,7 +151,7 @@ private void addFields(Class<?> clazz) {
 }
 ```
 
-## Invoker
+## 抽象字段赋值与读取
 
 `Invoker` 接口用于抽象设置和读取字段值的操作。对于有 `getter/setter` 方法的字段，通过 `MethodInvoker` 反射执行；对应其它字段，通过 `GetFieldInvoker` 和 `SetFieldInvoker` 操作 `Field` 对象的 `getter/setter` 方法反射执行。
 
@@ -186,7 +186,7 @@ public interface Invoker {
 }
 ```
 
-## TypeParameterResolver
+## 解析参数类型
 
 针对 `Java-Type` 体系的多种实现，`TypeParameterResolver` 提供一系列方法来解析指定类中的字段、方法返回值或方法参数的类型。
 
@@ -313,7 +313,7 @@ private static Type scanSuperTypes(TypeVariable<?> typeVar, Type srcType, Class<
 
 解析方法返回值和方法参数的逻辑大致与解析字段类型相同，`MyBatis` 源码的`TypeParameterResolverTest` 类提供了相关的测试用例。
 
-## ReflectorFactory
+## 元信息工厂
 
 `MyBatis` 还提供 `ReflectorFactory` 接口用于实现 `Reflector` 容器，其默认实现为 `DefaultReflectorFactory`，其中可以使用 `classCacheEnabled` 属性来配置是否使用缓存。
 
@@ -363,11 +363,11 @@ public class DefaultReflectorFactory implements ReflectorFactory {
 }
 ```
 
-## ObjectFactory
+## 对象创建工厂
 
 `ObjectFactory` 接口是 `MyBatis` 对象创建工厂，其默认实现 `DefaultObjectFactory` 通过构造器反射创建对象，支持使用无参构造器和有参构造器。
 
-## Property 工具集
+## 属性工具集
 
 `MyBatis` 在映射文件定义 `resultMap` 支持如下形式：
 
@@ -427,7 +427,7 @@ public PropertyTokenizer(String fullname) {
 
 `PropertyNamer` 可以根据 `getter/setter` 规范解析字段名称；`PropertyCopier` 则支持对有相同父类的对象，通过反射拷贝字段值。
 
-## MetaClass
+## 封装类信息
 
 `MetaClass` 类依赖 `PropertyTokenizer` 和 `Reflector` 查找表达式是否可以匹配 `Java` 对象中的字段，以及对应字段是否有 `getter/setter` 方法。
 
@@ -465,7 +465,7 @@ private StringBuilder buildProperty(String name, StringBuilder builder) {
 }
 ```
 
-## MetaObject 与 ObjectWrapper
+## 包装字段对象
 
 相对于 `MetaClass` 关注类信息，`MetalObject` 关注的是对象的信息，除了保存传入的对象本身，还会为对象指定一个 `ObjectWrapper` 将对象包装起来。`ObejctWrapper` 体系如下：
 
@@ -591,7 +591,8 @@ private Object getBeanProperty(PropertyTokenizer prop, Object object) {
 - `org.apache.ibatis.reflection.Reflector`：缓存类的字段名和 getter/setter 方法的元信息，使得反射时有更好的性能。
 - `org.apache.ibatis.reflection.invoker.Invoker:`：用于抽象设置和读取字段值的操作。
 - `org.apache.ibatis.reflection.TypeParameterResolver`：针对 Java-Type 体系的多种实现，解析指定类中的字段、方法返回值或方法参数的类型。
-- `org.apache.ibatis.reflection.DefaultReflectorFactory`：默认的 Reflector 创建工厂。
+- `org.apache.ibatis.reflection.ReflectorFactory`：反射信息创建工厂抽象接口。
+- `org.apache.ibatis.reflection.DefaultReflectorFactory`：默认的反射信息创建工厂。
 - `org.apache.ibatis.reflection.factory.ObjectFactory`：MyBatis 对象创建工厂，其默认实现 DefaultObjectFactory 通过构造器反射创建对象。
 - `org.apache.ibatis.reflection.property`：property 工具包，针对映射文件表达式进行解析和 Java 对象的反射赋值。
 - `org.apache.ibatis.reflection.MetaClass`：依赖 PropertyTokenizer 和 Reflector 查找表达式是否可以匹配 Java 对象中的字段，以及对应字段是否有 getter/setter 方法。
