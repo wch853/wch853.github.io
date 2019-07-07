@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 date: 2019-06-16
-desc: MyBatis 提供了一系列工具和实现，用于为整个框架提供基础支持。
+desc: MyBatis提供了一系列工具和实现，用于为整个框架提供基础支持。本文从源码角度详细分析其实现。
 tags: MyBatis 源码 基础支持
 ---
 
@@ -1123,7 +1123,7 @@ private PooledConnection popConnection(String username, String password) throws 
 
 #### 阻塞操作
 
-`BlockingCache` 在执行获取缓存操作时对 `key` 加锁，直到写缓存后释放锁，保证了相同 `key` 只有一个线程执行数据库操作，其它线程在缓存层阻塞。
+`BlockingCache` 在执行获取缓存操作时对 `key` 加锁，直到写缓存后释放锁，保证了相同 `key` 同一时刻只有一个线程执行数据库操作，其它线程在缓存层阻塞。
 
 ```java
   /**
@@ -1508,19 +1508,6 @@ private void cycleKeyList(Object key) {
 
 `MyBatis` 提供了一系列工具和实现，用于为整个框架提供基础支持。
 
-> 反射模块
-
-- `org.apache.ibatis.reflection.Reflector`：缓存类的字段名和 getter/setter 方法的元信息，使得反射时有更好的性能。
-- `org.apache.ibatis.reflection.invoker.Invoker:`：用于抽象设置和读取字段值的操作。
-- `org.apache.ibatis.reflection.TypeParameterResolver`：针对 Java-Type 体系的多种实现，解析指定类中的字段、方法返回值或方法参数的类型。
-- `org.apache.ibatis.reflection.ReflectorFactory`：反射信息创建工厂抽象接口。
-- `org.apache.ibatis.reflection.DefaultReflectorFactory`：默认的反射信息创建工厂。
-- `org.apache.ibatis.reflection.factory.ObjectFactory`：MyBatis 对象创建工厂，其默认实现 DefaultObjectFactory 通过构造器反射创建对象。
-- `org.apache.ibatis.reflection.property`：property 工具包，针对映射文件表达式进行解析和 Java 对象的反射赋值。
-- `org.apache.ibatis.reflection.MetaClass`：依赖 PropertyTokenizer 和 Reflector 查找表达式是否可以匹配 Java 对象中的字段，以及对应字段是否有 getter/setter 方法。
-- `org.apache.ibatis.reflection.MetaObject`：对原始对象进行封装，将对象操作委托给 ObjectWrapper 处理。
-- `org.apache.ibatis.reflection.ywrapper.ObjectWrapper`：对象包装类，封装对象的读取和赋值等操作。
-
 > 类型转换
 
 - `org.apache.ibatis.type.TypeHandler`：类型转换器接口，抽象 `JDBC` 类型和 `Java` 类型互转逻辑。
@@ -1565,7 +1552,7 @@ private void cycleKeyList(Object key) {
 
 - `org.apache.ibatis.cache.Cache`：缓存抽象接口。
 - `org.apache.ibatis.cache.impl.PerpetualCache`：使用 `HashMap` 作为缓存实现容器的 `Cache` 基本实现。
-- `org.apache.ibatis.cache.decorators.BlockingCache`：缓存阻塞装饰器。保证相同 `key` 只有一个线程执行数据库操作，其它线程在缓存层阻塞。
+- `org.apache.ibatis.cache.decorators.BlockingCache`：缓存阻塞装饰器。保证相同 `key` 同一时刻只有一个线程执行数据库操作，其它线程在缓存层阻塞。
 - `org.apache.ibatis.cache.decorators.FifoCache`：缓存先进先出装饰器。按写缓存顺序维护缓存 `key` 队列，缓存项超出指定大小，删除最先入队的缓存。
 - `org.apache.ibatis.cache.decorators.LruCache`：缓存最近最久未使用装饰器。基于 `LinkedHashMap` 维护了 `key` 的 `LRU` 顺序。
 - `org.apache.ibatis.cache.decorators.LoggingCache`：缓存日志装饰器。查询缓存时记录查询日志并统计命中率。

@@ -1,7 +1,7 @@
 ---
 sidebarDepth: 2
 date: 2019-06-01
-desc: MyBatis 简介和整体架构，源码分析首篇。
+desc: MyBatis简介和整体架构，源码分析首篇。
 tags: MyBatis 架构 源码
 ---
 

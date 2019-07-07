@@ -61,7 +61,10 @@ module.exports = {
           children: [
             ['mybatis/MyBatis源码分析（一）：MyBatis简介和整体架构', 'MyBatis 源码分析（一）：MyBatis 简介和整体架构'],
             ['mybatis/MyBatis源码分析（二）：反射模块', 'MyBatis 源码分析（二）：反射模块'],
-            ['mybatis/MyBatis源码分析（三）：基础支持模块', 'MyBatis 源码分析（三）：基础支持模块']
+            ['mybatis/MyBatis源码分析（三）：基础支持模块', 'MyBatis 源码分析（三）：基础支持模块'],
+            ['mybatis/MyBatis源码分析（四）：配置解析', 'MyBatis 源码分析（四）：配置解析'],
+            ['mybatis/MyBatis源码分析（五）：Mapper通用配置解析', 'MyBatis 源码分析（五）：Mapper 通用配置解析'],
+            ['mybatis/MyBatis源码分析（六）：statement解析', 'MyBatis 源码分析（六）：statement 解析']
           ]
         },
         {
