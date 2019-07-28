@@ -1,11 +1,11 @@
 ---
 sidebarDepth: 2
 date: 2019-06-23
-desc: MyBatis初始化时通过解析相关配置文件获取运行时行为。本文从源码角度对解析过程进行分析。
-tags: MyBatis 源码 配置解析
+desc: MyBatis初始化时通过解析相关配置文件获取运行时行为。本文从源码角度对运行时配置解析过程进行分析。
+tags: MyBatis 源码 运行时配置解析
 ---
 
-# MyBatis 源码分析（四）：配置解析
+# MyBatis 源码分析（四）：运行时配置解析
 
 在 `Spring` 与 `MyBatis` 的集成中，通常需要声明一个 `sqlSessionFactory` 用于初始化 `MyBatis`：
 
