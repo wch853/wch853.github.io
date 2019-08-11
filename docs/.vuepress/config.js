@@ -66,7 +66,8 @@ module.exports = {
             ['mybatis/MyBatis源码分析（五）：Mapper通用配置解析', 'MyBatis 源码分析（五）：Mapper 通用配置解析'],
             ['mybatis/MyBatis源码分析（六）：statement解析', 'MyBatis 源码分析（六）：statement 解析'],
             ['mybatis/MyBatis源码分析（七）：接口层', 'MyBatis 源码分析（七）：接口层'],
-            ['mybatis/MyBatis源码分析（八）：执行器', 'MyBatis 源码分析（八）：执行器']
+            ['mybatis/MyBatis源码分析（八）：执行器', 'MyBatis 源码分析（八）：执行器'],
+            ['mybatis/MyBatis源码分析（九）：集成Spring', 'MyBatis 源码分析（九）：集成 Spring']
           ]
         },
         {
