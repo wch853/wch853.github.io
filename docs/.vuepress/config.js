@@ -102,6 +102,17 @@ module.exports = {
           children: [
             ['mp/使用云开发构建多媒体小程序', '使用云开发构建多媒体小程序']
           ]
+        },
+        {
+          title: 'Elasticsearch',
+          collapsable: true,
+          children: [
+            ['elasticsearch/Elasticsearch（一）：概念与基本API', 'Elasticsearch（一）：概念与基本API'],
+            ['elasticsearch/Elasticsearch（二）：SearchAPI', 'Elasticsearch（二）：SearchAPI'],
+            ['elasticsearch/Elasticsearch（三）：集群特性', 'Elasticsearch（三）：集群特性'],
+            ['elasticsearch/Elasticsearch（四）：Search运行机制', 'Elasticsearch（四）：Search运行机制'],
+            ['elasticsearch/Elasticsearch（五）：聚合分析', 'Elasticsearch（五）：聚合分析']
+          ]
         }
       ],
       '/project/': [{
