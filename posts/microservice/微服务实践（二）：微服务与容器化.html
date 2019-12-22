@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>微服务实践（二）：微服务与容器化 | wch的个人主页</title>
+    <meta name="description" content="用于分享wch的学习笔记和项目~">
+    <link rel="icon" href="/favicon.ico">
+    
+    <link rel="preload" href="/assets/css/0.styles.74c45c5d.css" as="style"><link rel="preload" href="/assets/js/app.15a66b26.js" as="script"><link rel="preload" href="/assets/js/2.92cd0f37.js" as="script"><link rel="preload" href="/assets/js/28.f56b7e3c.js" as="script"><link rel="prefetch" href="/assets/js/10.1166f652.js"><link rel="prefetch" href="/assets/js/11.b6ae0b14.js"><link rel="prefetch" href="/assets/js/12.7802c7ba.js"><link rel="prefetch" href="/assets/js/13.63066938.js"><link rel="prefetch" href="/assets/js/14.1f9fa0d5.js"><link rel="prefetch" href="/assets/js/15.6c758eca.js"><link rel="prefetch" href="/assets/js/16.58440a84.js"><link rel="prefetch" href="/assets/js/17.1e1f5c53.js"><link rel="prefetch" href="/assets/js/18.28115609.js"><link rel="prefetch" href="/assets/js/19.7e395424.js"><link rel="prefetch" href="/assets/js/20.2c2ea5f8.js"><link rel="prefetch" href="/assets/js/21.1e8ef167.js"><link rel="prefetch" href="/assets/js/22.47a8f5b7.js"><link rel="prefetch" href="/assets/js/23.f507c548.js"><link rel="prefetch" href="/assets/js/24.b19f43b8.js"><link rel="prefetch" href="/assets/js/25.5b1882b0.js"><link rel="prefetch" href="/assets/js/26.16cf6f8a.js"><link rel="prefetch" href="/assets/js/27.6f3498d0.js"><link rel="prefetch" href="/assets/js/29.de1da78b.js"><link rel="prefetch" href="/assets/js/3.73d3287d.js"><link rel="prefetch" href="/assets/js/30.108b25a0.js"><link rel="prefetch" href="/assets/js/31.68af7d35.js"><link rel="prefetch" href="/assets/js/32.c9f05837.js"><link rel="prefetch" href="/assets/js/33.13bd6f64.js"><link rel="prefetch" href="/assets/js/34.59041fd7.js"><link rel="prefetch" href="/assets/js/35.4382a261.js"><link rel="prefetch" href="/assets/js/36.01d6324a.js"><link rel="prefetch" href="/assets/js/37.22e4179e.js"><link rel="prefetch" href="/assets/js/38.f553994e.js"><link rel="prefetch" href="/assets/js/39.a72bb5df.js"><link rel="prefetch" href="/assets/js/4.9a52aae5.js"><link rel="prefetch" href="/assets/js/40.3751cd34.js"><link rel="prefetch" href="/assets/js/41.d351ec5d.js"><link rel="prefetch" href="/assets/js/42.b87a3eae.js"><link rel="prefetch" href="/assets/js/43.7035de8a.js"><link rel="prefetch" href="/assets/js/44.2c18f0bc.js"><link rel="prefetch" href="/assets/js/45.52905280.js"><link rel="prefetch" href="/assets/js/46.abb047a4.js"><link rel="prefetch" href="/assets/js/47.2ac230d3.js"><link rel="prefetch" href="/assets/js/48.b63bb42b.js"><link rel="prefetch" href="/assets/js/49.35752ae9.js"><link rel="prefetch" href="/assets/js/5.36029518.js"><link rel="prefetch" href="/assets/js/50.b6bd912f.js"><link rel="prefetch" href="/assets/js/51.0e0db65f.js"><link rel="prefetch" href="/assets/js/52.d15fb17a.js"><link rel="prefetch" href="/assets/js/53.844345be.js"><link rel="prefetch" href="/assets/js/54.52685e8c.js"><link rel="prefetch" href="/assets/js/55.83a99fe0.js"><link rel="prefetch" href="/assets/js/56.fe26d3a3.js"><link rel="prefetch" href="/assets/js/57.dae36566.js"><link rel="prefetch" href="/assets/js/58.1bfd28b1.js"><link rel="prefetch" href="/assets/js/59.88f55364.js"><link rel="prefetch" href="/assets/js/6.d3b55a54.js"><link rel="prefetch" href="/assets/js/7.af0443ed.js"><link rel="prefetch" href="/assets/js/8.2c9a7ea2.js"><link rel="prefetch" href="/assets/js/9.c08dcf83.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.74c45c5d.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">wch的个人主页</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">主页</a></div><div class="nav-item"><a href="/posts/" class="nav-link router-link-active">博客</a></div><div class="nav-item"><a href="/project/" class="nav-link">项目</a></div><div class="nav-item"><a href="https://www.jianshu.com/u/778216ebe79c" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  简书
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/wch853" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">主页</a></div><div class="nav-item"><a href="/posts/" class="nav-link router-link-active">博客</a></div><div class="nav-item"><a href="/project/" class="nav-link">项目</a></div><div class="nav-item"><a href="https://www.jianshu.com/u/778216ebe79c" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  简书
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/wch853" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Java虚拟机</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Java并发编程</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>MyBatis 源码分析</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Spring Security 源码分析</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>微服务</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/posts/microservice/微服务实践（一）：Docker入门.html" class="sidebar-link">微服务实践（一）：Docker入门</a></li><li><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html" class="active sidebar-link">微服务实践（二）：微服务与容器化</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#软件架构" class="sidebar-link">软件架构</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#软件架构影响因素" class="sidebar-link">软件架构影响因素</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#软件架构进化" class="sidebar-link">软件架构进化</a></li></ul></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#微服务" class="sidebar-link">微服务</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#诞生背景" class="sidebar-link">诞生背景</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#特征" class="sidebar-link">特征</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#优势" class="sidebar-link">优势</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#不足" class="sidebar-link">不足</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#微服务架构引入的问题" class="sidebar-link">微服务架构引入的问题</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#常见-rpc-框架" class="sidebar-link">常见 RPC 框架</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#服务发现" class="sidebar-link">服务发现</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#服务部署" class="sidebar-link">服务部署</a></li></ul></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#分布式微服务实践" class="sidebar-link">分布式微服务实践</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#用户服务" class="sidebar-link">用户服务</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#消息服务" class="sidebar-link">消息服务</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#课程服务" class="sidebar-link">课程服务</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#web-服务" class="sidebar-link">web 服务</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#apigateway" class="sidebar-link">APIGateway</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#构建-docker-镜像" class="sidebar-link">构建 docker 镜像</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#编写-docker-compose-文件" class="sidebar-link">编写 docker-compose 文件</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#运行和管理-docker-服务" class="sidebar-link">运行和管理 docker 服务</a></li><li class="sidebar-sub-header"><a href="/posts/microservice/微服务实践（二）：微服务与容器化.html#故障" class="sidebar-link">故障</a></li></ul></li></ul></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>微信小程序</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Elasticsearch</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="微服务实践（二）：微服务与容器化"><a href="#微服务实践（二）：微服务与容器化" class="header-anchor">#</a> 微服务实践（二）：微服务与容器化</h1> <h2 id="软件架构"><a href="#软件架构" class="header-anchor">#</a> 软件架构</h2> <p>软件架构是在软件的内部，经过综合各种因素的考量、权衡，选择特定的技术，将系统划分成不同的部分并使这些部分相互分工，彼此协作，为用户提供需要的价值。</p> <h3 id="软件架构影响因素"><a href="#软件架构影响因素" class="header-anchor">#</a> 软件架构影响因素</h3> <ul><li>业务需求：需要实现的功能</li> <li>技术栈：选择用于实现功能的技术</li> <li>成本：愿意为开发软件付出的价值</li> <li>组织架构：有哪些部门能为开发提供帮助</li> <li>可扩展性：面向扩展开放</li> <li>可维护性：维护成本</li></ul> <h3 id="软件架构进化"><a href="#软件架构进化" class="header-anchor">#</a> 软件架构进化</h3> <h4 id="单体架构"><a href="#单体架构" class="header-anchor">#</a> 单体架构</h4> <p>单体架构功能、业务集中在一个发布包里，部署运行在同一个进程中。</p> <ul><li>优势：易于开发、测试、部署、水平扩展</li> <li>劣势：代码膨胀而难以维护，构建、部署成本大，上手周期长，升级现有技术栈困难，对资源的不同需求导致扩展性差</li></ul> <h4 id="微服务架构"><a href="#微服务架构" class="header-anchor">#</a> 微服务架构</h4> <p>使用一套小服务来开发单个应用的方式，每个服务运行在独立的进程里，一般采用轻量级的通讯机制互联，并且它们可以通过自动化的方式部署。</p> <h2 id="微服务"><a href="#微服务" class="header-anchor">#</a> 微服务</h2> <h3 id="诞生背景"><a href="#诞生背景" class="header-anchor">#</a> 诞生背景</h3> <ul><li>互联网行业快速发展</li> <li>敏捷开发，精益方法深入人心</li> <li>容器技术的成熟</li></ul> <h3 id="特征"><a href="#特征" class="header-anchor">#</a> 特征</h3> <ul><li>单一职责：只把紧密相关的业务放在一起，无关的业务独立出去</li> <li>轻量级通信：微服务之间的通信应该是轻量级的，平台无关，语言无关</li> <li>隔离性：每个微服务运行在自己的进程中，不会相互干扰</li> <li>有自己的数据：有独立的数据存储系统</li> <li>技术多样性：开发人员选用自己擅长的技术栈</li></ul> <h3 id="优势"><a href="#优势" class="header-anchor">#</a> 优势</h3> <ul><li>独立性：微服务构建、部署、扩容、缩容、容错甚至数据库都是独立的</li> <li>敏捷性：微服务功能单一，API 简单，迭代方便</li> <li>技术栈灵活：在保证提供稳定服务的情况下微服务各个模块可以自由选择技术栈</li> <li>高效团队：每个团队负责自己的微服务，提高开发效率</li></ul> <h3 id="不足"><a href="#不足" class="header-anchor">#</a> 不足</h3> <ul><li>额外工作：微服务需要考虑如何拆分系统，而单体架构不需要</li> <li>数据一致性：单体架构可能只有一个数据库，通过事务可以保证数据一致性，而微服务有多个数据库</li> <li>沟通成本：服务的提供方和调用方可能属于多个团队，增加了沟通成本</li></ul> <h3 id="微服务架构引入的问题"><a href="#微服务架构引入的问题" class="header-anchor">#</a> 微服务架构引入的问题</h3> <h4 id="通讯"><a href="#通讯" class="header-anchor">#</a> 通讯</h4> <h5 id="从通讯协议角度考虑"><a href="#从通讯协议角度考虑" class="header-anchor">#</a> 从通讯协议角度考虑</h5> <ul><li>REST API</li> <li>RPC</li> <li>MQ</li></ul> <h5 id="选择-rpc-框架考虑因素"><a href="#选择-rpc-框架考虑因素" class="header-anchor">#</a> 选择 RPC 框架考虑因素</h5> <ul><li>I/O、线程调度模型</li> <li>序列化方式</li> <li>是否需要多语言支持</li></ul> <h3 id="常见-rpc-框架"><a href="#常见-rpc-框架" class="header-anchor">#</a> 常见 RPC 框架</h3> <h4 id="dubbo"><a href="#dubbo" class="header-anchor">#</a> Dubbo</h4> <p><img src="/img/microservice/dubbo.png" alt="Dubbo"></p> <p><a href="http://dubbo.apache.org/zh-cn/" target="_blank" rel="noopener noreferrer">Dubbo<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>是一款高性能的 RPC 框架。注册中心提供注册和发现服务，而不提供转发请求。消费者订阅提供者在注册中心注册的服务，通过接口调用提供者对服务的具体实现。监控中心服务统计消费者和提供者的调用次数、调用时间等，并在汇总后发给注册中心。</p> <h4 id="motan"><a href="#motan" class="header-anchor">#</a> Motan</h4> <p><img src="/img/microservice/motan.png" alt="Motan"></p> <p><a href="https://github.com/weibocom/motan" target="_blank" rel="noopener noreferrer">Motan<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>是新浪微博开源的一个 Java RPC 框架，目前在微博平台中已经广泛应用，每天为数百个服务完成近千亿次的调用。</p> <h4 id="thrift"><a href="#thrift" class="header-anchor">#</a> thrift</h4> <p><img src="/img/microservice/thrift.png" alt="thrift"></p> <p><a href="http://thrift.apache.org/" target="_blank" rel="noopener noreferrer">thrift<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>是一个跨语言的服务部署框架，通过 IDL（Interface Definition Language，接口定义语言）来定义 RPC 的接口和数据类型，并通过 thrift 编译器生成不同语言的代码，并由生成的代码负责 RPC 协议层和传输层的实现。</p> <h4 id="grpc"><a href="#grpc" class="header-anchor">#</a> gRPC</h4> <p><img src="/img/microservice/grpc.png" alt="gRPC"></p> <p>在 gRPC 里客户端应用可以像调用本地对象一样直接调用另一台不同的机器上服务端应用的方法。在服务端实现接口，并运行一个 gRPC 服务器处理客户端调用。在客户端拥有一个存根能够像服务端一样调用方法。gRPC 同样是跨语言的，使用 protobuf 进行序列化。</p> <h4 id="rpc-框架对比"><a href="#rpc-框架对比" class="header-anchor">#</a> RPC 框架对比</h4> <p><img src="/img/microservice/rpc%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94.png" alt="RPC框架对比"></p> <h3 id="服务发现"><a href="#服务发现" class="header-anchor">#</a> 服务发现</h3> <ul><li><p>客户端发现
+<img src="/img/microservice/%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%8F%91%E7%8E%B0.png" alt="客户端发现"></p></li> <li><p>服务端发现
+<img src="/img/microservice/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%8F%91%E7%8E%B0.png" alt="服务端发现"></p></li></ul> <h3 id="服务部署"><a href="#服务部署" class="header-anchor">#</a> 服务部署</h3> <p>传统部署可能通过 jenkins 脚本上传代码来部署，微服务随着数量增多，传统部署方式部署困难，需要引入服务编排工具，如 Mesos、Docker Swarm、Kubernetes。</p> <h2 id="分布式微服务实践"><a href="#分布式微服务实践" class="header-anchor">#</a> 分布式微服务实践</h2> <p>以一个简单的课程服务为例，实现用户登录、注册，发送消息验证码，查询课程信息等功能，集成 dubbo、thrift、SpringBoot、SpringCloud 等框架，并在 Docker 上进行容器化部署。</p> <p><img src="/img/microservice/%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84.png" alt="服务架构"></p> <ul><li>course-thrift-server：基于 thrift(Java)，通过 TSocket 对外提供用户相关服务。</li> <li>course-dubbo-server：基于 Dubbo，通过注册中心 zookeeper 注册提供的服务。</li> <li>course-message：基于 thrift(golang)，通过 TSocket 对外提供信息相关服务。</li> <li>course-web：web 服务入口，根据业务逻辑进行 RPC 调用。</li> <li>course-api-gateway：基于 SpringCloud zuul 的服务网关，通过 REST 调用 course-web 的服务，面向客户调用。</li></ul> <p><img src="/img/microservice/%E6%9C%8D%E5%8A%A1%E4%BE%9D%E8%B5%96.png" alt="服务依赖"></p> <h3 id="用户服务"><a href="#用户服务" class="header-anchor">#</a> 用户服务</h3> <p>用户服务负责查询和注册用户信息，实现 thrift 文件生成的 java 接口，并通过 TSocket 对外暴露服务。</p> <h4 id="thrift-代码生成"><a href="#thrift-代码生成" class="header-anchor">#</a> thrift 代码生成</h4> <p>编写 thrift 文件（<a href="http://thrift.apache.org/docs/idl" target="_blank" rel="noopener noreferrer">thrift 语法<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>），下载 thrift 代码生成工具，使用命令 <code>thrift --gen java --out ../course-interface/src/main/java user_model.thrift &amp;&amp; thrift --gen java --out ../course-interface/src/main/java user_service.thrift</code> 生成 thrift 类和接口文件。</p> <div class="language-thrift extra-class"><pre class="language-text"><code>namespace java com.wch.course.domain.thrift
+
+typedef i32 INT
+typedef i64 LONG
+
+/**
+ * 用户信息
+ */
+struct UserInfo {
+
+    /**
+     * 用户编号
+     */
+    1: optional INT id,
+
+    /**
+     * 用户名
+     */
+    2: optional string username,
+
+    /**
+     * 密码
+     */
+    3: optional string password,
+
+    /**
+     * 真实姓名
+     */
+    4: optional string realName,
+
+    /**
+     * 手机号
+     */
+    5: optional LONG mobile,
+
+    /**
+     * 电子邮箱
+     */
+    6: optional string email
+}
+</code></pre></div><div class="language-thrift extra-class"><pre class="language-text"><code>namespace java com.wch.course.service.thrift
+
+include 'user_model.thrift'
+
+typedef i32 INT
+typedef user_model.UserInfo UserInfo
+
+/**
+ * 用户信息服务
+ */
+service IUserService {
+
+    /**
+     * 通过用户编号查询用户信息
+     */
+    UserInfo queryUserById(1: INT id);
+
+    /**
+     * 通过用户名查询用户信息
+     */
+    UserInfo queryUserByName(1: string username);
+
+    /**
+     * 新增用户
+     */
+    void addUser(1: UserInfo userInfo);
+}
+</code></pre></div><h4 id="通过-tsocket-暴露-thrift-服务"><a href="#通过-tsocket-暴露-thrift-服务" class="header-anchor">#</a> 通过 TSocket 暴露 thrift 服务</h4> <div class="language-java extra-class"><pre class="language-java"><code><span class="token annotation punctuation">@Slf4j</span>
+<span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ThriftServer</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">&quot;${thrift.port}&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> thriftServicePort<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Resource</span>
+    <span class="token keyword">private</span> <span class="token class-name">IUserService</span><span class="token punctuation">.</span><span class="token class-name">Iface</span> userService<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@PostConstruct</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">startThriftServer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">TProcessor</span> processor <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">IUserService</span><span class="token punctuation">.</span><span class="token class-name">Processor</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span>userService<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">TNonblockingServerSocket</span> socket <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            socket <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TNonblockingServerSocket</span><span class="token punctuation">(</span>thriftServicePort<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">TTransportException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">&quot;start thrift server error&quot;</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token class-name">TNonblockingServer</span><span class="token punctuation">.</span><span class="token class-name">Args</span> args <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TNonblockingServer</span><span class="token punctuation">.</span><span class="token class-name">Args</span><span class="token punctuation">(</span>socket<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        args<span class="token punctuation">.</span><span class="token function">processor</span><span class="token punctuation">(</span>processor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        args<span class="token punctuation">.</span><span class="token function">transportFactory</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">TFramedTransport</span><span class="token punctuation">.</span><span class="token class-name">Factory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        args<span class="token punctuation">.</span><span class="token function">protocolFactory</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">TBinaryProtocol</span><span class="token punctuation">.</span><span class="token class-name">Factory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token class-name">TServer</span> server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TNonblockingServer</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Runnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">&quot;thrift server start on {} ...&quot;</span><span class="token punctuation">,</span> thriftServicePort<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                server<span class="token punctuation">.</span><span class="token function">serve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="消息服务"><a href="#消息服务" class="header-anchor">#</a> 消息服务</h3> <p>消息服务提供发送短信、邮件功能（模拟），由 Go 语言实现 Thrift 服务端。</p> <h4 id="下载-thrift-的-go-依赖包"><a href="#下载-thrift-的-go-依赖包" class="header-anchor">#</a> 下载 thrift 的 Go 依赖包</h4> <div class="language-bash extra-class"><pre class="language-bash"><code>go get -v git.apache.org/thrift.git/lib/go/thrift
+</code></pre></div><h4 id="thrift-定义"><a href="#thrift-定义" class="header-anchor">#</a> thrift 定义</h4> <div class="language-thrift extra-class"><pre class="language-text"><code>namespace java com.wch.course.thrift.service
+namespace go course.rpc.service
+
+/**
+ * 消息服务
+ */
+service IMessageService {
+
+    /**
+     * 发送短信
+     */
+    bool sendSMSMessage(1: string mobile, 2: string message);
+
+    /**
+     * 发送邮件
+     */
+    bool sendEmailMessage(1: string email, 2: string message);
+}
+</code></pre></div><h4 id="接口实现"><a href="#接口实现" class="header-anchor">#</a> 接口实现</h4> <div class="language-go extra-class"><pre class="language-go"><code><span class="token keyword">type</span> MessageServiceImpl <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>MessageServiceImpl<span class="token punctuation">)</span> <span class="token function">SendSMSMessage</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> mobile <span class="token builtin">string</span><span class="token punctuation">,</span> message <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>r <span class="token builtin">bool</span><span class="token punctuation">,</span> err <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">&quot;send to %s, message: %s\n&quot;</span><span class="token punctuation">,</span> mobile<span class="token punctuation">,</span> message<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>MessageServiceImpl<span class="token punctuation">)</span> <span class="token function">SendEmailMessage</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> email <span class="token builtin">string</span><span class="token punctuation">,</span> message <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>r <span class="token builtin">bool</span><span class="token punctuation">,</span> err <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">&quot;send to %s, message: %s\n&quot;</span><span class="token punctuation">,</span> email<span class="token punctuation">,</span> message<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="暴露-thrift-服务"><a href="#暴露-thrift-服务" class="header-anchor">#</a> 暴露 thrift 服务</h4> <div class="language-go extra-class"><pre class="language-go"><code><span class="token keyword">func</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token punctuation">{</span>
+	flag<span class="token punctuation">.</span><span class="token function">StringVar</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>Host<span class="token punctuation">,</span> <span class="token string">&quot;host&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;localhost:8082&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;thrift port&quot;</span><span class="token punctuation">)</span>
+	flag<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	handler <span class="token operator">:=</span> <span class="token operator">&amp;</span>impl<span class="token punctuation">.</span>MessageServiceImpl<span class="token punctuation">{</span><span class="token punctuation">}</span>
+	serviceProcessor <span class="token operator">:=</span> service<span class="token punctuation">.</span><span class="token function">NewIMessageServiceProcessor</span><span class="token punctuation">(</span>handler<span class="token punctuation">)</span>
+	socket<span class="token punctuation">,</span> err <span class="token operator">:=</span> thrift<span class="token punctuation">.</span><span class="token function">NewTServerSocket</span><span class="token punctuation">(</span>Host<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> <span class="token boolean">nil</span> <span class="token operator">!=</span> err <span class="token punctuation">{</span>
+		<span class="token function">panic</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	transportFactory <span class="token operator">:=</span> thrift<span class="token punctuation">.</span><span class="token function">NewTFramedTransportFactory</span><span class="token punctuation">(</span>thrift<span class="token punctuation">.</span><span class="token function">NewTTransportFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	protocolFactory <span class="token operator">:=</span> thrift<span class="token punctuation">.</span><span class="token function">NewTBinaryProtocolFactoryDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+	server <span class="token operator">:=</span> thrift<span class="token punctuation">.</span><span class="token function">NewTSimpleServer4</span><span class="token punctuation">(</span>serviceProcessor<span class="token punctuation">,</span> socket<span class="token punctuation">,</span> transportFactory<span class="token punctuation">,</span> protocolFactory<span class="token punctuation">)</span>
+	log<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">&quot;thrift server in %s&quot;</span><span class="token punctuation">,</span> Host<span class="token punctuation">)</span>
+	server<span class="token punctuation">.</span><span class="token function">Serve</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="课程服务"><a href="#课程服务" class="header-anchor">#</a> 课程服务</h3> <p>课程服务负责查询课程信息，实现课程服务并将 Dubbo 接口注册到 zookeeper。
+使用 dubbo-spring-boot-starter 作为 dubbo 与 SpringBoot 集成的 jar 包（SpringBoot 1.x 版本只支持 dubbo-spring-boot-starter 0.1.1）。为了后期与 docker 集成，部分参数以占位符的形式存在，而 dubbo-spring-boot-starter 的自动配置很早就从配置文件中取固定格式的 dubbo 配置，此时部分参数还是占位符的形式，导致自动配置失败，因此本项目选择自定义配置参数名称，手动编写部分配置替换自动配置。</p> <ul><li>服务端</li></ul> <p>配置文件：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>dubbo:
+  scan:
+    basePackages: com.wch.course.service.impl
+  application:
+    name: dubbo-provider
+  provider:
+    port: <span class="token variable">${dubbo.port}</span>
+  registry: zookeeper://<span class="token variable">${registry.address}</span>?client<span class="token operator">=</span>curator
+</code></pre></div><p>配置注册中心和服务项：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DubboConfig</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">&quot;${dubbo.registry}&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> registry<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">&quot;${dubbo.provider.port}&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> dubboPort<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">RegistryConfig</span> <span class="token function">registryConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">RegistryConfig</span><span class="token punctuation">(</span>registry<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">ProtocolConfig</span> <span class="token function">dubboProtocolConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ProtocolConfig</span><span class="token punctuation">(</span><span class="token string">&quot;dubbo&quot;</span><span class="token punctuation">,</span> dubboPort<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="web-服务"><a href="#web-服务" class="header-anchor">#</a> web 服务</h3> <p>web 服务负责根据业务逻辑进行 RPC 调用，并向外部暴露 REST 接口。</p> <h4 id="thrift-客户端"><a href="#thrift-客户端" class="header-anchor">#</a> thrift 客户端</h4> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">private</span> <span class="token class-name">TServiceClient</span> <span class="token function">getService</span><span class="token punctuation">(</span><span class="token class-name">String</span> host<span class="token punctuation">,</span> <span class="token keyword">int</span> port<span class="token punctuation">,</span> <span class="token keyword">int</span> timeout<span class="token punctuation">,</span> <span class="token class-name">Class</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">TServiceClient</span><span class="token punctuation">&gt;</span></span> clazz<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+    <span class="token class-name">TSocket</span> socket <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TSocket</span><span class="token punctuation">(</span>host<span class="token punctuation">,</span> port<span class="token punctuation">,</span> timeout<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">TFramedTransport</span> transport <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TFramedTransport</span><span class="token punctuation">(</span>socket<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    transport<span class="token punctuation">.</span><span class="token keyword">open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">TBinaryProtocol</span> tBinaryProtocol <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TBinaryProtocol</span><span class="token punctuation">(</span>transport<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Constructor</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">TServiceClient</span><span class="token punctuation">&gt;</span></span> constructor <span class="token operator">=</span> clazz<span class="token punctuation">.</span><span class="token function">getConstructor</span><span class="token punctuation">(</span><span class="token class-name">TProtocol</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> constructor<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span>tBinaryProtocol<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token class-name">IUserService</span><span class="token punctuation">.</span><span class="token class-name">Client</span> <span class="token function">getUserService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token class-name">IUserService</span><span class="token punctuation">.</span><span class="token class-name">Client</span><span class="token punctuation">)</span> <span class="token function">getService</span><span class="token punctuation">(</span>userServiceHost<span class="token punctuation">,</span> userServicePort<span class="token punctuation">,</span> timeout<span class="token punctuation">,</span> <span class="token class-name">IUserService</span><span class="token punctuation">.</span><span class="token class-name">Client</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token class-name">IMessageService</span><span class="token punctuation">.</span><span class="token class-name">Client</span> <span class="token function">getMessageService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token class-name">IMessageService</span><span class="token punctuation">.</span><span class="token class-name">Client</span><span class="token punctuation">)</span> <span class="token function">getService</span><span class="token punctuation">(</span>messageServiceHost<span class="token punctuation">,</span> messageServicePort<span class="token punctuation">,</span> timeout<span class="token punctuation">,</span> <span class="token class-name">IMessageService</span><span class="token punctuation">.</span><span class="token class-name">Client</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="dubbo-客户端配置"><a href="#dubbo-客户端配置" class="header-anchor">#</a> dubbo 客户端配置</h4> <p>配置文件：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>dubbo:
+  application:
+    name: dubbo-consumer
+  registry: zookeeper://<span class="token variable">${registry.address}</span>?client<span class="token operator">=</span>curator
+</code></pre></div><p>配置注册中心：</p> <div class="language- extra-class"><pre class="language-text"><code>@Configuration
+public class DubboConfig {
+
+    @Value(&quot;${dubbo.registry}&quot;)
+    private String registry;
+
+    @Bean
+    public RegistryConfig registryConfig() {
+        return new RegistryConfig(registry);
+    }
+}
+</code></pre></div><h3 id="apigateway"><a href="#apigateway" class="header-anchor">#</a> APIGateway</h3> <p>APIGateway 基于 SpringCloud zuul 向外暴露 REST 接口。
+配置文件：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>zuul:
+  routes:
+    course:
+      path: /course/**
+      url: http://localhost:8080/course-web/course/
+    user:
+      path: /user/**
+      url: http://localhost:8080/course-web/user/
+    message:
+      path: /message/**
+      url: http://localhost:8080/course-web/message/
+</code></pre></div><h3 id="构建-docker-镜像"><a href="#构建-docker-镜像" class="header-anchor">#</a> 构建 docker 镜像</h3> <p>对各服务模块进行打包后编写 Dockerfile：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>FROM openjdk:8-jre-slim
+LABEL <span class="token assign-left variable">maintainer</span><span class="token operator">=</span><span class="token string">&quot;wch wch@163.com&quot;</span>
+
+COPY target/course-web-1.0-SNAPSHOT.jar /course-web.jar
+
+ENTRYPOINT <span class="token punctuation">[</span><span class="token string">&quot;java&quot;</span>, <span class="token string">&quot;-jar&quot;</span>, <span class="token string">&quot;/course-web.jar&quot;</span><span class="token punctuation">]</span>
+</code></pre></div><h3 id="编写-docker-compose-文件"><a href="#编写-docker-compose-文件" class="header-anchor">#</a> 编写 docker-compose 文件</h3> <p>各镜像构建完成后编写 docker-compose 文件来方便编排 docker 服务。</p> <div class="language-bash extra-class"><pre class="language-bash"><code>version: <span class="token string">'3'</span>
+
+services:
+  zookeeper:
+    image: zookeeper:3.4.13
+    networks:
+      - rpc-bridge
+
+  redis:
+    image: redis:latest
+    command:
+      - <span class="token string">&quot;--appendonly yes&quot;</span>
+    volumes:
+      - d:/docker/redis:/data
+    networks:
+      - component-bridge
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_ROOT_HOST: <span class="token string">&quot;%&quot;</span>
+    volumes:
+      - d:/docker/mysql/data:/var/lib/mysql
+      - d:/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - data-bridge
+
+  thrift-server:
+    image: course-thrift-server:1.0
+    links:
+      - mysql
+    command:
+      - <span class="token string">&quot;--spring.profiles.active=prd&quot;</span>
+      - <span class="token string">&quot;--rpc.thrift.port=8081&quot;</span>
+      - <span class="token string">&quot;--mysql.address=mysql:3306&quot;</span>
+    networks:
+      - rpc-bridge
+      - data-bridge
+
+  dubbo-server:
+    image: course-dubbo-server:1.0
+    links:
+      - zookeeper
+      - mysql
+    command:
+      - <span class="token string">&quot;--spring.profiles.active=prd&quot;</span>
+      - <span class="token string">&quot;--dubbo.port=8083&quot;</span>
+      - <span class="token string">&quot;--registry.address=zookeeper:2181&quot;</span>
+      - <span class="token string">&quot;--mysql.address=mysql:3306&quot;</span>
+    networks:
+      - rpc-bridge
+      - data-bridge
+
+  web:
+    image: course-web:1.0
+    links:
+      - redis
+      - zookeeper
+      - thrift-server
+    volumes:
+      - d:/docker/app/logs/course-web:/var/app/logs/course-web
+    command:
+      - <span class="token string">&quot;--spring.profiles.active=prd&quot;</span>
+      - <span class="token string">&quot;--server.port=8080&quot;</span>
+      - <span class="token string">&quot;--thrift.service.user.host=thrift-server&quot;</span>
+      - <span class="token string">&quot;--thrift.service.user.port=8081&quot;</span>
+      - <span class="token string">&quot;--redis.host=redis&quot;</span>
+      - <span class="token string">&quot;--redis.port=6379&quot;</span>
+      - <span class="token string">&quot;--registry.address=zookeeper:2181&quot;</span>
+    networks:
+      - rpc-bridge
+      - component-bridge
+      - net-bridge
+
+  api-gateway:
+    image: course-api-gateway:1.0
+    links:
+      - web
+    command:
+      - <span class="token string">&quot;--spring.profiles.active=prd&quot;</span>
+      - <span class="token string">&quot;--server.port=80&quot;</span>
+      - <span class="token string">&quot;--web.host=web&quot;</span>
+      - <span class="token string">&quot;--web.port=8080&quot;</span>
+    ports:
+      - <span class="token number">80</span>:80
+    networks:
+      - net-bridge
+
+networks:
+  net-bridge:
+    driver: bridge
+  component-bridge:
+    driver: bridge
+  data-bridge:
+    driver: bridge
+  rpc-bridge:
+    driver: bridge
+</code></pre></div><h3 id="运行和管理-docker-服务"><a href="#运行和管理-docker-服务" class="header-anchor">#</a> 运行和管理 docker 服务</h3> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 启动</span>
+docker-compose up -d
+<span class="token comment"># 对dubbo-server进行扩容</span>
+docker-compose up --scale dubbo-server<span class="token operator">=</span><span class="token number">3</span> -d
+<span class="token comment"># 关闭并删除所有容器</span>
+docker-compose down
+</code></pre></div><h3 id="故障"><a href="#故障" class="header-anchor">#</a> 故障</h3> <h4 id="docker-for-windows-暴露连接端口"><a href="#docker-for-windows-暴露连接端口" class="header-anchor">#</a> Docker for Windows 暴露连接端口</h4> <p>本地使用 Docker for Windows，运行 docker version 命令，客户端报错，需要勾选 <code>Expose daemon on tcp://localhost:2375 without TLS</code>。</p> <p><img src="/img/microservice/DockerforWindows%E6%9A%B4%E9%9C%B2%E8%BF%9E%E6%8E%A5%E7%AB%AF%E5%8F%A3.png" alt="Docker for Windows暴露连接端口"></p> <h4 id="docker-for-windows-共享本地硬盘设置不生效"><a href="#docker-for-windows-共享本地硬盘设置不生效" class="header-anchor">#</a> Docker for Windows 共享本地硬盘设置不生效</h4> <p>修改本地共享安全策略后选择共享给 Docker 的硬盘。</p> <p><img src="/img/microservice/Docker%E6%9C%AC%E5%9C%B0%E5%85%B1%E4%BA%AB%E5%AE%89%E5%85%A8%E8%AE%BE%E7%BD%AE.png" alt="Docker本地共享安全设置.png"></p> <p><img src="/img/microservice/Docker%E9%80%89%E6%8B%A9%E5%85%B1%E4%BA%AB%E6%9C%AC%E5%9C%B0%E7%A1%AC%E7%9B%98.png" alt="Docker选择共享本地硬盘.png"></p> <h4 id="mysql-默认禁止远程连接"><a href="#mysql-默认禁止远程连接" class="header-anchor">#</a> MySQL 默认禁止远程连接</h4> <p>MySQL 默认禁止远程连接，需要配置 docker 容器连接用户的远程连接权限。</p> <ul><li>安装的 mysql</li></ul> <div class="language-bash extra-class"><pre class="language-bash"><code>grant all privileges on *.* to <span class="token string">'root'</span>@<span class="token string">'%'</span> identified by <span class="token string">'pwd'</span><span class="token punctuation">;</span>
+flush privileges<span class="token punctuation">;</span>
+<span class="token comment"># 查看指定用户是否改为不限制IP登录</span>
+SELECT user, <span class="token function">host</span> FROM mysql.user<span class="token punctuation">;</span>
+</code></pre></div><ul><li>docker 提供的 mysql 镜像
+docker 启动参数中使用-e MYSQL_ROOT_HOST=%</li></ul> <div class="language-bash extra-class"><pre class="language-bash"><code>docker run -d -e <span class="token assign-left variable">MYSQL_ROOT_PASSWORD</span><span class="token operator">=</span>pass -e <span class="token assign-left variable">MYSQL_ROOT_HOST</span><span class="token operator">=</span>% -p <span class="token number">3307</span>:3306 -v d:/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf -v d:/docker/mysql/data:/var/lib/mysql --name<span class="token operator">=</span>mysql mysql:5.7
+</code></pre></div><h4 id="redis-windows-默认绑定本地"><a href="#redis-windows-默认绑定本地" class="header-anchor">#</a> redis-windows 默认绑定本地</h4> <p>在 redis 配置文件中，配置 bind 127.0.0.1 表示 redis 限制本地连接，windows 版本默认是开启的，docker 容器进行连接时需要注释此配置、</p> <h4 id="redis-设置密码错误"><a href="#redis-设置密码错误" class="header-anchor">#</a> redis 设置密码错误</h4> <p>拉取的 redis 镜像默认没有配置密码，若配置文件中填写了密码进行连接会保错。在上 docker 版本的配置文件中通过配置默认值，即：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>spring.redis.password<span class="token operator">=</span>
+</code></pre></div><p>来覆盖密码配置。</p> <h4 id="mysql-容器-ssl-连接错误"><a href="#mysql-容器-ssl-连接错误" class="header-anchor">#</a> mysql 容器 ssl 连接错误</h4> <p>使用 java 客户端连接 mysql 容器出错，useSSL 参数修改为 false。</p> <div class="language-bash extra-class"><pre class="language-bash"><code>jdbc:mysql://<span class="token variable">${mysql.address}</span>/test?useUnicode<span class="token operator">=</span>true<span class="token operator">&amp;</span><span class="token assign-left variable">characterEncoding</span><span class="token operator">=</span>utf8<span class="token operator">&amp;</span><span class="token assign-left variable">useSSL</span><span class="token operator">=</span>false
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/posts/microservice/微服务实践（一）：Docker入门.html" class="prev">微服务实践（一）：Docker入门</a></span> <span class="next"><a href="/posts/mp/使用云开发构建多媒体小程序.html">使用云开发构建多媒体小程序</a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.15a66b26.js" defer></script><script src="/assets/js/2.92cd0f37.js" defer></script><script src="/assets/js/28.f56b7e3c.js" defer></script>
+  </body>
+</html>

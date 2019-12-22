@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Elasticsearch（四）：Search运行机制 | wch的个人主页</title>
+    <meta name="description" content="用于分享wch的学习笔记和项目~">
+    <link rel="icon" href="/favicon.ico">
+    
+    <link rel="preload" href="/assets/css/0.styles.74c45c5d.css" as="style"><link rel="preload" href="/assets/js/app.15a66b26.js" as="script"><link rel="preload" href="/assets/js/2.92cd0f37.js" as="script"><link rel="preload" href="/assets/js/16.58440a84.js" as="script"><link rel="prefetch" href="/assets/js/10.1166f652.js"><link rel="prefetch" href="/assets/js/11.b6ae0b14.js"><link rel="prefetch" href="/assets/js/12.7802c7ba.js"><link rel="prefetch" href="/assets/js/13.63066938.js"><link rel="prefetch" href="/assets/js/14.1f9fa0d5.js"><link rel="prefetch" href="/assets/js/15.6c758eca.js"><link rel="prefetch" href="/assets/js/17.1e1f5c53.js"><link rel="prefetch" href="/assets/js/18.28115609.js"><link rel="prefetch" href="/assets/js/19.7e395424.js"><link rel="prefetch" href="/assets/js/20.2c2ea5f8.js"><link rel="prefetch" href="/assets/js/21.1e8ef167.js"><link rel="prefetch" href="/assets/js/22.47a8f5b7.js"><link rel="prefetch" href="/assets/js/23.f507c548.js"><link rel="prefetch" href="/assets/js/24.b19f43b8.js"><link rel="prefetch" href="/assets/js/25.5b1882b0.js"><link rel="prefetch" href="/assets/js/26.16cf6f8a.js"><link rel="prefetch" href="/assets/js/27.6f3498d0.js"><link rel="prefetch" href="/assets/js/28.f56b7e3c.js"><link rel="prefetch" href="/assets/js/29.de1da78b.js"><link rel="prefetch" href="/assets/js/3.73d3287d.js"><link rel="prefetch" href="/assets/js/30.108b25a0.js"><link rel="prefetch" href="/assets/js/31.68af7d35.js"><link rel="prefetch" href="/assets/js/32.c9f05837.js"><link rel="prefetch" href="/assets/js/33.13bd6f64.js"><link rel="prefetch" href="/assets/js/34.59041fd7.js"><link rel="prefetch" href="/assets/js/35.4382a261.js"><link rel="prefetch" href="/assets/js/36.01d6324a.js"><link rel="prefetch" href="/assets/js/37.22e4179e.js"><link rel="prefetch" href="/assets/js/38.f553994e.js"><link rel="prefetch" href="/assets/js/39.a72bb5df.js"><link rel="prefetch" href="/assets/js/4.9a52aae5.js"><link rel="prefetch" href="/assets/js/40.3751cd34.js"><link rel="prefetch" href="/assets/js/41.d351ec5d.js"><link rel="prefetch" href="/assets/js/42.b87a3eae.js"><link rel="prefetch" href="/assets/js/43.7035de8a.js"><link rel="prefetch" href="/assets/js/44.2c18f0bc.js"><link rel="prefetch" href="/assets/js/45.52905280.js"><link rel="prefetch" href="/assets/js/46.abb047a4.js"><link rel="prefetch" href="/assets/js/47.2ac230d3.js"><link rel="prefetch" href="/assets/js/48.b63bb42b.js"><link rel="prefetch" href="/assets/js/49.35752ae9.js"><link rel="prefetch" href="/assets/js/5.36029518.js"><link rel="prefetch" href="/assets/js/50.b6bd912f.js"><link rel="prefetch" href="/assets/js/51.0e0db65f.js"><link rel="prefetch" href="/assets/js/52.d15fb17a.js"><link rel="prefetch" href="/assets/js/53.844345be.js"><link rel="prefetch" href="/assets/js/54.52685e8c.js"><link rel="prefetch" href="/assets/js/55.83a99fe0.js"><link rel="prefetch" href="/assets/js/56.fe26d3a3.js"><link rel="prefetch" href="/assets/js/57.dae36566.js"><link rel="prefetch" href="/assets/js/58.1bfd28b1.js"><link rel="prefetch" href="/assets/js/59.88f55364.js"><link rel="prefetch" href="/assets/js/6.d3b55a54.js"><link rel="prefetch" href="/assets/js/7.af0443ed.js"><link rel="prefetch" href="/assets/js/8.2c9a7ea2.js"><link rel="prefetch" href="/assets/js/9.c08dcf83.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.74c45c5d.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">wch的个人主页</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">主页</a></div><div class="nav-item"><a href="/posts/" class="nav-link router-link-active">博客</a></div><div class="nav-item"><a href="/project/" class="nav-link">项目</a></div><div class="nav-item"><a href="https://www.jianshu.com/u/778216ebe79c" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  简书
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/wch853" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">主页</a></div><div class="nav-item"><a href="/posts/" class="nav-link router-link-active">博客</a></div><div class="nav-item"><a href="/project/" class="nav-link">项目</a></div><div class="nav-item"><a href="https://www.jianshu.com/u/778216ebe79c" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  简书
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/wch853" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Java虚拟机</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Java并发编程</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>MyBatis 源码分析</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Spring Security 源码分析</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>微服务</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>微信小程序</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Elasticsearch</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/posts/elasticsearch/Elasticsearch（一）：概念与基本API.html" class="sidebar-link">Elasticsearch（一）：概念与基本API</a></li><li><a href="/posts/elasticsearch/Elasticsearch（二）：SearchAPI.html" class="sidebar-link">Elasticsearch（二）：SearchAPI</a></li><li><a href="/posts/elasticsearch/Elasticsearch（三）：集群特性.html" class="sidebar-link">Elasticsearch（三）：集群特性</a></li><li><a href="/posts/elasticsearch/Elasticsearch（四）：Search运行机制.html" class="active sidebar-link">Elasticsearch（四）：Search运行机制</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（四）：Search运行机制.html#search-执行" class="sidebar-link">Search 执行</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（四）：Search运行机制.html#query-阶段" class="sidebar-link">Query 阶段</a></li><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（四）：Search运行机制.html#fetch-阶段" class="sidebar-link">Fetch 阶段</a></li></ul></li><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（四）：Search运行机制.html#相关性算分" class="sidebar-link">相关性算分</a></li><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（四）：Search运行机制.html#排序" class="sidebar-link">排序</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（四）：Search运行机制.html#doc-values-与-fielddata" class="sidebar-link">doc values 与 fielddata</a></li></ul></li><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（四）：Search运行机制.html#深度分页" class="sidebar-link">深度分页</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（四）：Search运行机制.html#scroll" class="sidebar-link">scroll</a></li><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（四）：Search运行机制.html#search-after" class="sidebar-link">search after</a></li></ul></li></ul></li><li><a href="/posts/elasticsearch/Elasticsearch（五）：聚合分析.html" class="sidebar-link">Elasticsearch（五）：聚合分析</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="elasticsearch（四）：search运行机制"><a href="#elasticsearch（四）：search运行机制" class="header-anchor">#</a> Elasticsearch（四）：Search运行机制</h1> <h2 id="search-执行"><a href="#search-执行" class="header-anchor">#</a> Search 执行</h2> <p><code>Search</code> 执行时分为 <code>Query</code> 和 <code>Fetch</code> 两个阶段。</p> <h3 id="query-阶段"><a href="#query-阶段" class="header-anchor">#</a> Query 阶段</h3> <ul><li><p><code>coordinating node</code> 接受请求后在所有主副分片中随机选择 <code>shard</code> 数个分片发送 <code>search</code> 请求。</p></li> <li><p>被选中的分片会分别执行请求并排序，返回 <code>from + size</code> 个文档 <code>id</code> 和排序值给 <code>coordinating node</code>。</p></li></ul> <h3 id="fetch-阶段"><a href="#fetch-阶段" class="header-anchor">#</a> Fetch 阶段</h3> <ul><li><code>coordinating node</code> 获取到文档 <code>id</code> 后向相关分片发送 <code>multi_get</code> 请求。</li> <li>各分片返回文档给 <code>coordinating node</code>。</li> <li><code>coordinating node</code> 将排序和分页后的结果返回给客户端。</li></ul> <h2 id="相关性算分"><a href="#相关性算分" class="header-anchor">#</a> 相关性算分</h2> <p><code>es</code> 的每个 <code>shard</code> 对应一个 <code>lucene index</code>，即一个独立的算分单位。当设置多个分片时，查询的文档在不同分片上会分别计算相关性得分，可能会导致最终的得分是不准的。<code>es</code> 提供参数 <code>search_type=dfs_query_then_fetch</code> 使得 <code>es</code> 能够在获得所有文档后重新计算相关性得分，此种方式会消耗较多 <code>cpu</code> 和内存。</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token constant">GET</span> <span class="token operator">/</span>test<span class="token operator">/</span>_search<span class="token operator">?</span>search_type<span class="token operator">=</span>dfs_query_then_fetch
+</code></pre></div><h2 id="排序"><a href="#排序" class="header-anchor">#</a> 排序</h2> <p><code>sort</code> 参数用于指定排序的字段和方式。<code>_doc</code> 排序使用文档内部 <code>id</code>，即使用索引顺序作为排序规则。</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token constant">GET</span> <span class="token operator">/</span>test<span class="token operator">/</span>_search
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;sort&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token string">&quot;age&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;order&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;desc&quot;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      <span class="token string">&quot;_doc&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;order&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;desc&quot;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="doc-values-与-fielddata"><a href="#doc-values-与-fielddata" class="header-anchor">#</a> doc values 与 fielddata</h3> <p><code>es</code> 不允许直接对 <code>text</code> 类型字段进行排序。由于排序是使用的是文档内容，无法用到倒排索引，而是需要通过文档 <code>id</code> 获取文档字段的原始内容。<code>es</code> 对此提供两种实现方式</p> <h4 id="doc-values"><a href="#doc-values" class="header-anchor">#</a> doc values</h4> <p><code>es</code> 中除了 <code>text</code> 字段（不支持）都默认开启了<code>doc values</code>，其在写入文档时与倒排索引一起生成并写入磁盘，其结构为文档 <code>id</code> 到文档指定字段的 <code>value</code>。这样在聚合分析时就不会占用内存，但是索引时会减慢索引的速度，占用额外的磁盘资源。如果一个字段明确不会被聚合分析，可以在 <code>mapping</code> 中通过 <code>doc_values</code> 参数关闭：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token constant">PUT</span> <span class="token operator">/</span>test
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;mappings&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;properties&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">&quot;hobby&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;type&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;keyword&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;doc_values&quot;</span><span class="token punctuation">:</span> <span class="token boolean">false</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="fielddata"><a href="#fielddata" class="header-anchor">#</a> fielddata</h4> <p><code>doc values</code> 是不支持对 <code>text</code> 类型使用的，如果需要对能够分词的 <code>text</code> 类型进行排序，就需要使用 <code>fielddata</code>。<code>fielddata</code> 在搜索时于内存中创建，其不会额外占用磁盘资源，但是当文档较多时即时创建会花费过多时间、占用较多内存。<code>fielddata</code> 默认时关闭的，可以通过修改 <code>mapping</code> 的 <code>fielddata</code> 参数使得字段的 <code>fielddata</code> 特性立即可用：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token constant">PUT</span> <span class="token operator">/</span>test
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;mappings&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;properties&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">&quot;hobby&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;type&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;text&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;fielddata&quot;</span><span class="token punctuation">:</span> <span class="token boolean">true</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>使用 <code>fielddata</code> 不代表能够真正对 <code>text</code> 类型的值进行排序，其结果为文档 <code>id</code> 到每个分词，即仅支持对分词结果的一部分进行排序。</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token constant">GET</span> <span class="token operator">/</span>test<span class="token operator">/</span>_search
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;sort&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token string">&quot;hobby&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;order&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;desc&quot;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// ...</span>
+    <span class="token string">&quot;hits&quot;</span> <span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">&quot;_index&quot;</span> <span class="token punctuation">:</span> <span class="token string">&quot;test2&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;_type&quot;</span> <span class="token punctuation">:</span> <span class="token string">&quot;_doc&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;_id&quot;</span> <span class="token punctuation">:</span> <span class="token string">&quot;myi4Bm8BVyg6ro4E7nPl&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;_score&quot;</span> <span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;_source&quot;</span> <span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          <span class="token string">&quot;hobby&quot;</span> <span class="token punctuation">:</span> <span class="token string">&quot;play games&quot;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;sort&quot;</span> <span class="token punctuation">:</span> <span class="token punctuation">[</span>
+          <span class="token string">&quot;play&quot;</span>
+        <span class="token punctuation">]</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token comment">// ...</span>
+</code></pre></div><p><code>fielddata</code> 会首先对分词结果进行排序，来选择用作文档排序的词，召回结果中会通过 <code>sort</code> 字段说明用作排序的词。</p> <h4 id="docvalues-fields"><a href="#docvalues-fields" class="header-anchor">#</a> docvalues_fields</h4> <p>使用 <code>docvalue_fields</code> 参数可以指定召回 <code>fielddata</code> 或 <code>doc values</code> 存储的值：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token constant">GET</span> <span class="token operator">/</span>test2<span class="token operator">/</span>_search
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;docvalue_fields&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token string">&quot;hobby&quot;</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// ...</span>
+    <span class="token string">&quot;hits&quot;</span> <span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">&quot;_index&quot;</span> <span class="token punctuation">:</span> <span class="token string">&quot;test2&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;_type&quot;</span> <span class="token punctuation">:</span> <span class="token string">&quot;_doc&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;_id&quot;</span> <span class="token punctuation">:</span> <span class="token string">&quot;myi4Bm8BVyg6ro4E7nPl&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;_score&quot;</span> <span class="token punctuation">:</span> <span class="token number">1.0</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;_source&quot;</span> <span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          <span class="token string">&quot;hobby&quot;</span> <span class="token punctuation">:</span> <span class="token string">&quot;play games&quot;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;fields&quot;</span> <span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          <span class="token string">&quot;hobby&quot;</span> <span class="token punctuation">:</span> <span class="token punctuation">[</span>
+            <span class="token string">&quot;games&quot;</span><span class="token punctuation">,</span>
+            <span class="token string">&quot;play&quot;</span>
+          <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token comment">// ...</span>
+</code></pre></div><h2 id="深度分页"><a href="#深度分页" class="header-anchor">#</a> 深度分页</h2> <p><code>es</code> 提供 <code>from</code>、<code>size</code> 来指定分页，但是每次执行分页并非直接获取 <code>size</code> 个数据，而是从每个分片获取 <code>from+size</code> 个数据后再排序选取。页数越深，占用的内存越多，耗时越长。<code>es</code> 通过 <code>index.max_result_window</code> 限定最多取 <code>10000</code> 数据。</p> <h3 id="scroll"><a href="#scroll" class="header-anchor">#</a> scroll</h3> <p><code>es</code> 提供 <code>scroll</code> 用来生成数据快照。当使用 <code>scroll</code> 请求返回单页结果时，可以检索出大量结果（甚至全部）生成快照。请求结果返回 <code>_scroll_id</code> 是进行下一页查询的参数，通过 <code>scroll</code> 可以完成对快照的遍历。</p> <p>指定使用 <code>scroll</code> 即其保留的时间，如 <code>1m</code> 代表快照保留一分钟。</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token constant">GET</span> <span class="token operator">/</span>test<span class="token operator">/</span>_search<span class="token operator">?</span>scroll<span class="token operator">=</span><span class="token number">1</span>m
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;size&quot;</span><span class="token punctuation">:</span> <span class="token number">2</span>
+<span class="token punctuation">}</span>
+
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;_scroll_id&quot;</span> <span class="token punctuation">:</span> <span class="token string">&quot;DXF1ZXJ5QW5kRmV0Y2gBAAAAAAAB_2MWbmFUODhqSGVRZldTQzk4OTRQaUVvdw==&quot;</span><span class="token punctuation">,</span>
+<span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>使用返回的 <code>_scroll_id</code> 作为参数进行下一次迭代，直到返回的结果为空：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token constant">GET</span> <span class="token operator">/</span>_search<span class="token operator">/</span>scroll
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;scroll&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;1m&quot;</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;scroll_id&quot;</span> <span class="token punctuation">:</span> <span class="token string">&quot;DXF1ZXJ5QW5kRmV0Y2gBAAAAAAAB_2MWbmFUODhqSGVRZldTQzk4OTRQaUVvdw==&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><code>scroll</code> 生成的是一份数据快照，因此不能用作实时搜索，尽量只使用 <code>_doc</code> 排序的方式。<code>scroll</code> 会占用内存，可以选择删除 <code>scroll</code>：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// 指定删除 scroll</span>
+<span class="token constant">DELETE</span> <span class="token operator">/</span>_search<span class="token operator">/</span>scroll
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;scroll_id&quot;</span> <span class="token punctuation">:</span> <span class="token string">&quot;DXF1ZXJ5QW5kRmV0Y2gBAAAAAAACABAWbmFUODhqSGVRZldTQzk4OTRQaUVvdw==&quot;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 删除所有 scroll</span>
+<span class="token constant">DELETE</span> <span class="token operator">/</span>_search<span class="token operator">/</span>scroll<span class="token operator">/</span>_all
+</code></pre></div><h3 id="search-after"><a href="#search-after" class="header-anchor">#</a> search after</h3> <p><code>search after</code> 是通过前次查询指定的排序值对当前查询进行定位，使得各分片返回的文档数控制在 <code>size</code> 个内。<code>search after</code> 是实时的，使用的排序值必须能够唯一排序定位，不支持通过 <code>from</code> 参数指定查询页数，并且只能往后翻页。</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token constant">GET</span> <span class="token operator">/</span>test<span class="token operator">/</span>_search
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;size&quot;</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;sort&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token string">&quot;_id&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;order&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;desc&quot;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// ...</span>
+    <span class="token string">&quot;hits&quot;</span> <span class="token punctuation">:</span> <span class="token punctuation">[</span>
+		<span class="token comment">// ...</span>
+        <span class="token string">&quot;sort&quot;</span> <span class="token punctuation">:</span> <span class="token punctuation">[</span>
+          <span class="token string">&quot;rCdxA28BVyg6ro4EWU8p&quot;</span>
+        <span class="token punctuation">]</span>
+<span class="token comment">// ...</span>
+</code></pre></div><p>使用上次返回结果的排序定位值指定 <code>search_after</code> 参数：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token constant">GET</span> <span class="token operator">/</span>test<span class="token operator">/</span>_search
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;size&quot;</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;sort&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token string">&quot;_id&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;order&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;desc&quot;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;search_after&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token string">&quot;rCdxA28BVyg6ro4EWU8p&quot;</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/posts/elasticsearch/Elasticsearch（三）：集群特性.html" class="prev">Elasticsearch（三）：集群特性</a></span> <span class="next"><a href="/posts/elasticsearch/Elasticsearch（五）：聚合分析.html">Elasticsearch（五）：聚合分析</a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.15a66b26.js" defer></script><script src="/assets/js/2.92cd0f37.js" defer></script><script src="/assets/js/16.58440a84.js" defer></script>
+  </body>
+</html>

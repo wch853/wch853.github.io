@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>代理模式 | wch的个人主页</title>
+    <meta name="description" content="用于分享wch的学习笔记和项目~">
+    <link rel="icon" href="/favicon.ico">
+    
+    <link rel="preload" href="/assets/css/0.styles.74c45c5d.css" as="style"><link rel="preload" href="/assets/js/app.15a66b26.js" as="script"><link rel="preload" href="/assets/js/2.92cd0f37.js" as="script"><link rel="preload" href="/assets/js/46.abb047a4.js" as="script"><link rel="prefetch" href="/assets/js/10.1166f652.js"><link rel="prefetch" href="/assets/js/11.b6ae0b14.js"><link rel="prefetch" href="/assets/js/12.7802c7ba.js"><link rel="prefetch" href="/assets/js/13.63066938.js"><link rel="prefetch" href="/assets/js/14.1f9fa0d5.js"><link rel="prefetch" href="/assets/js/15.6c758eca.js"><link rel="prefetch" href="/assets/js/16.58440a84.js"><link rel="prefetch" href="/assets/js/17.1e1f5c53.js"><link rel="prefetch" href="/assets/js/18.28115609.js"><link rel="prefetch" href="/assets/js/19.7e395424.js"><link rel="prefetch" href="/assets/js/20.2c2ea5f8.js"><link rel="prefetch" href="/assets/js/21.1e8ef167.js"><link rel="prefetch" href="/assets/js/22.47a8f5b7.js"><link rel="prefetch" href="/assets/js/23.f507c548.js"><link rel="prefetch" href="/assets/js/24.b19f43b8.js"><link rel="prefetch" href="/assets/js/25.5b1882b0.js"><link rel="prefetch" href="/assets/js/26.16cf6f8a.js"><link rel="prefetch" href="/assets/js/27.6f3498d0.js"><link rel="prefetch" href="/assets/js/28.f56b7e3c.js"><link rel="prefetch" href="/assets/js/29.de1da78b.js"><link rel="prefetch" href="/assets/js/3.73d3287d.js"><link rel="prefetch" href="/assets/js/30.108b25a0.js"><link rel="prefetch" href="/assets/js/31.68af7d35.js"><link rel="prefetch" href="/assets/js/32.c9f05837.js"><link rel="prefetch" href="/assets/js/33.13bd6f64.js"><link rel="prefetch" href="/assets/js/34.59041fd7.js"><link rel="prefetch" href="/assets/js/35.4382a261.js"><link rel="prefetch" href="/assets/js/36.01d6324a.js"><link rel="prefetch" href="/assets/js/37.22e4179e.js"><link rel="prefetch" href="/assets/js/38.f553994e.js"><link rel="prefetch" href="/assets/js/39.a72bb5df.js"><link rel="prefetch" href="/assets/js/4.9a52aae5.js"><link rel="prefetch" href="/assets/js/40.3751cd34.js"><link rel="prefetch" href="/assets/js/41.d351ec5d.js"><link rel="prefetch" href="/assets/js/42.b87a3eae.js"><link rel="prefetch" href="/assets/js/43.7035de8a.js"><link rel="prefetch" href="/assets/js/44.2c18f0bc.js"><link rel="prefetch" href="/assets/js/45.52905280.js"><link rel="prefetch" href="/assets/js/47.2ac230d3.js"><link rel="prefetch" href="/assets/js/48.b63bb42b.js"><link rel="prefetch" href="/assets/js/49.35752ae9.js"><link rel="prefetch" href="/assets/js/5.36029518.js"><link rel="prefetch" href="/assets/js/50.b6bd912f.js"><link rel="prefetch" href="/assets/js/51.0e0db65f.js"><link rel="prefetch" href="/assets/js/52.d15fb17a.js"><link rel="prefetch" href="/assets/js/53.844345be.js"><link rel="prefetch" href="/assets/js/54.52685e8c.js"><link rel="prefetch" href="/assets/js/55.83a99fe0.js"><link rel="prefetch" href="/assets/js/56.fe26d3a3.js"><link rel="prefetch" href="/assets/js/57.dae36566.js"><link rel="prefetch" href="/assets/js/58.1bfd28b1.js"><link rel="prefetch" href="/assets/js/59.88f55364.js"><link rel="prefetch" href="/assets/js/6.d3b55a54.js"><link rel="prefetch" href="/assets/js/7.af0443ed.js"><link rel="prefetch" href="/assets/js/8.2c9a7ea2.js"><link rel="prefetch" href="/assets/js/9.c08dcf83.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.74c45c5d.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">wch的个人主页</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">主页</a></div><div class="nav-item"><a href="/posts/" class="nav-link router-link-active">博客</a></div><div class="nav-item"><a href="/project/" class="nav-link">项目</a></div><div class="nav-item"><a href="https://www.jianshu.com/u/778216ebe79c" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  简书
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/wch853" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">主页</a></div><div class="nav-item"><a href="/posts/" class="nav-link router-link-active">博客</a></div><div class="nav-item"><a href="/project/" class="nav-link">项目</a></div><div class="nav-item"><a href="https://www.jianshu.com/u/778216ebe79c" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  简书
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/wch853" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Java虚拟机</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/posts/jvm/深入理解Java虚拟机（一）：自动内存管理机制.html" class="sidebar-link">深入理解Java虚拟机（一）：自动内存管理机制</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Java并发编程</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>MyBatis 源码分析</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Spring Security 源码分析</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>微服务</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>微信小程序</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Elasticsearch</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="代理模式"><a href="#代理模式" class="header-anchor">#</a> 代理模式</h2> <p>代理模式是通过代理对象访问目标对象，在不修改目标对象的基础上对目标对象的功能进行扩展，因此代理模式也遵循了面向扩展开放，面向修改关闭的编程思想。</p> <h3 id="静态代理"><a href="#静态代理" class="header-anchor">#</a> 静态代理</h3> <p>静态代理是指代理对象和目标对象的关系在程序运行前就已经确定，代理类和目标类需要实现相同的接口：</p> <ul><li>需要共同实现的接口：</li></ul> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Subject</span> <span class="token punctuation">{</span>
+
+  <span class="token comment">/**
+   * 目标方法
+   */</span>
+  <span class="token keyword">void</span> <span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><ul><li>目标对象实现：</li></ul> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RealSubject</span> <span class="token keyword">implements</span> <span class="token class-name">Subject</span> <span class="token punctuation">{</span>
+
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;real subject execute request.&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><ul><li>静态代理类</li></ul> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">StaticProxy</span> <span class="token keyword">implements</span> <span class="token class-name">Subject</span> <span class="token punctuation">{</span>
+
+  <span class="token comment">/**
+   * 将目标对象委托给代理对象
+   */</span>
+  <span class="token keyword">private</span> <span class="token class-name">RealSubject</span> realSubject<span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token class-name">StaticProxy</span><span class="token punctuation">(</span><span class="token class-name">RealSubject</span> realSubject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>realSubject <span class="token operator">=</span> realSubject<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">/**
+   * 代理类实现相同方法来对目标对象进行增强
+   */</span>
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;### before.&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      realSubject<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;ex: &quot;</span> <span class="token operator">+</span> e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">&quot;.&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">throw</span> e<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;### after.&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="动态代理"><a href="#动态代理" class="header-anchor">#</a> 动态代理</h3> <p>动态代理是指代理对象由代理生成工具在程序运行时由 <code>JVM</code> 根据反射等机制动态生成的，代理对象和目标对象的关系在在程序运行时才确立。</p> <h4 id="jdk-动态代理"><a href="#jdk-动态代理" class="header-anchor">#</a> JDK 动态代理</h4> <p><code>JDK</code> 动态代理要求实现 <code>InvocationHandler</code> 接口，实现 <code>invoke</code> 方法，用于实现增强目标对象的具体逻辑：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">JdkProxySubject</span> <span class="token keyword">implements</span> <span class="token class-name">InvocationHandler</span> <span class="token punctuation">{</span>
+
+  <span class="token keyword">private</span> <span class="token class-name">RealSubject</span> realSubject<span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token class-name">JdkProxySubject</span><span class="token punctuation">(</span><span class="token class-name">RealSubject</span> realSubject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>realSubject <span class="token operator">=</span> realSubject<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">/**
+   * 基于反射的动态代理，针对目标方法进行动态代理
+   *
+   * @param proxy  方法反射的代理对象
+   * @param method 目标方法
+   * @param args   目标方法参数
+   * @return 增强的返回值
+   * @throws Throwable Throwable
+   */</span>
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">public</span> <span class="token class-name">Object</span> <span class="token function">invoke</span><span class="token punctuation">(</span><span class="token class-name">Object</span> proxy<span class="token punctuation">,</span> <span class="token class-name">Method</span> method<span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">{</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;### before.&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Object</span> result<span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      result <span class="token operator">=</span> method<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>realSubject<span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;ex: &quot;</span> <span class="token operator">+</span> e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">throw</span> e<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;### after.&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><code>java.lang.reflect.Proxy</code> 提供 <code>newProxyInstance</code> 方法用于动态生成代理对象：</p> <div class="language-java extra-class"><pre class="language-java"><code>  <span class="token comment">/**
+   * 生成动态代理对象
+   *
+   * @param loader 目标类的类加载器
+   * @param interfaces 目标类实现的接口
+   * @param h 业务增强逻辑
+   * @return
+   */</span>
+  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Object</span> <span class="token function">newProxyInstance</span><span class="token punctuation">(</span><span class="token class-name">ClassLoader</span> loader<span class="token punctuation">,</span> <span class="token class-name">Class</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">[</span><span class="token punctuation">]</span> interfaces<span class="token punctuation">,</span> <span class="token class-name">InvocationHandler</span> h<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+</code></pre></div><p>在此方法中<code>ProxyClassFactory</code> 会通过 <code>sun.misc.ProxyGenerator#generateClassFile</code> 方法生成一个前缀为 <code>com.sun.proxy.$Proxy</code> 的字节码文件并加载到虚拟机中，代理类通过反射执行 <code>InvocationHandler.invoke</code> 方法重写目标方法，实现增强。</p> <h4 id="cglib-动态代理"><a href="#cglib-动态代理" class="header-anchor">#</a> CGLIB 动态代理</h4> <p><code>JDK</code> 动态代理要求目标类和代理类实现相同的接口，如果目标类不存在对应的接口，则无法使用该方式实现。<code>CGLIB</code> 动态代理的实现原理是生成目标类的子类，子类对象即为对目标对象增强过的代理对象。<code>CGLIB</code> 动态代理要求实现 <code>MethodInterceptor</code> 接口：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CglibMethodInterceptor</span> <span class="token keyword">implements</span> <span class="token class-name">MethodInterceptor</span> <span class="token punctuation">{</span>
+
+  <span class="token comment">/**
+   * CGLIB增强业务逻辑
+   *
+   * @param o           目标对象
+   * @param method      目标对象方法
+   * @param args        方法参数
+   * @param methodProxy 方法代理
+   * @return 增强的返回值
+   * @throws Throwable Throwable
+   */</span>
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">public</span> <span class="token class-name">Object</span> <span class="token function">intercept</span><span class="token punctuation">(</span><span class="token class-name">Object</span> o<span class="token punctuation">,</span> <span class="token class-name">Method</span> method<span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">,</span> <span class="token class-name">MethodProxy</span> methodProxy<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">{</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;### before.&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Object</span> result<span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      result <span class="token operator">=</span> method<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>o<span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;ex: &quot;</span> <span class="token operator">+</span> e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">&quot;.&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">throw</span> e<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;### after.&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>通过 <code>Enhancer</code> 来生成动态代理对象：</p> <div class="language-java extra-class"><pre class="language-java"><code>  <span class="token class-name">Enhancer</span> enhancer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Enhancer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// 设置目标对象类型</span>
+  enhancer<span class="token punctuation">.</span><span class="token function">setSuperclass</span><span class="token punctuation">(</span><span class="token class-name">RealSubject</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// 设置代理增强逻辑</span>
+  enhancer<span class="token punctuation">.</span><span class="token function">setCallback</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">CglibMethodInterceptor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// 创建代理对象</span>
+  <span class="token class-name">RealSubject</span> subject <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">RealSubject</span><span class="token punctuation">)</span> enhancer<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  subject<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.15a66b26.js" defer></script><script src="/assets/js/2.92cd0f37.js" defer></script><script src="/assets/js/46.abb047a4.js" defer></script>
+  </body>
+</html>

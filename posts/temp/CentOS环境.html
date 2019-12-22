@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>## 安装CentOS | wch的个人主页</title>
+    <meta name="description" content="用于分享wch的学习笔记和项目~">
+    <link rel="icon" href="/favicon.ico">
+    
+    <link rel="preload" href="/assets/css/0.styles.74c45c5d.css" as="style"><link rel="preload" href="/assets/js/app.15a66b26.js" as="script"><link rel="preload" href="/assets/js/2.92cd0f37.js" as="script"><link rel="preload" href="/assets/js/48.b63bb42b.js" as="script"><link rel="prefetch" href="/assets/js/10.1166f652.js"><link rel="prefetch" href="/assets/js/11.b6ae0b14.js"><link rel="prefetch" href="/assets/js/12.7802c7ba.js"><link rel="prefetch" href="/assets/js/13.63066938.js"><link rel="prefetch" href="/assets/js/14.1f9fa0d5.js"><link rel="prefetch" href="/assets/js/15.6c758eca.js"><link rel="prefetch" href="/assets/js/16.58440a84.js"><link rel="prefetch" href="/assets/js/17.1e1f5c53.js"><link rel="prefetch" href="/assets/js/18.28115609.js"><link rel="prefetch" href="/assets/js/19.7e395424.js"><link rel="prefetch" href="/assets/js/20.2c2ea5f8.js"><link rel="prefetch" href="/assets/js/21.1e8ef167.js"><link rel="prefetch" href="/assets/js/22.47a8f5b7.js"><link rel="prefetch" href="/assets/js/23.f507c548.js"><link rel="prefetch" href="/assets/js/24.b19f43b8.js"><link rel="prefetch" href="/assets/js/25.5b1882b0.js"><link rel="prefetch" href="/assets/js/26.16cf6f8a.js"><link rel="prefetch" href="/assets/js/27.6f3498d0.js"><link rel="prefetch" href="/assets/js/28.f56b7e3c.js"><link rel="prefetch" href="/assets/js/29.de1da78b.js"><link rel="prefetch" href="/assets/js/3.73d3287d.js"><link rel="prefetch" href="/assets/js/30.108b25a0.js"><link rel="prefetch" href="/assets/js/31.68af7d35.js"><link rel="prefetch" href="/assets/js/32.c9f05837.js"><link rel="prefetch" href="/assets/js/33.13bd6f64.js"><link rel="prefetch" href="/assets/js/34.59041fd7.js"><link rel="prefetch" href="/assets/js/35.4382a261.js"><link rel="prefetch" href="/assets/js/36.01d6324a.js"><link rel="prefetch" href="/assets/js/37.22e4179e.js"><link rel="prefetch" href="/assets/js/38.f553994e.js"><link rel="prefetch" href="/assets/js/39.a72bb5df.js"><link rel="prefetch" href="/assets/js/4.9a52aae5.js"><link rel="prefetch" href="/assets/js/40.3751cd34.js"><link rel="prefetch" href="/assets/js/41.d351ec5d.js"><link rel="prefetch" href="/assets/js/42.b87a3eae.js"><link rel="prefetch" href="/assets/js/43.7035de8a.js"><link rel="prefetch" href="/assets/js/44.2c18f0bc.js"><link rel="prefetch" href="/assets/js/45.52905280.js"><link rel="prefetch" href="/assets/js/46.abb047a4.js"><link rel="prefetch" href="/assets/js/47.2ac230d3.js"><link rel="prefetch" href="/assets/js/49.35752ae9.js"><link rel="prefetch" href="/assets/js/5.36029518.js"><link rel="prefetch" href="/assets/js/50.b6bd912f.js"><link rel="prefetch" href="/assets/js/51.0e0db65f.js"><link rel="prefetch" href="/assets/js/52.d15fb17a.js"><link rel="prefetch" href="/assets/js/53.844345be.js"><link rel="prefetch" href="/assets/js/54.52685e8c.js"><link rel="prefetch" href="/assets/js/55.83a99fe0.js"><link rel="prefetch" href="/assets/js/56.fe26d3a3.js"><link rel="prefetch" href="/assets/js/57.dae36566.js"><link rel="prefetch" href="/assets/js/58.1bfd28b1.js"><link rel="prefetch" href="/assets/js/59.88f55364.js"><link rel="prefetch" href="/assets/js/6.d3b55a54.js"><link rel="prefetch" href="/assets/js/7.af0443ed.js"><link rel="prefetch" href="/assets/js/8.2c9a7ea2.js"><link rel="prefetch" href="/assets/js/9.c08dcf83.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.74c45c5d.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">wch的个人主页</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">主页</a></div><div class="nav-item"><a href="/posts/" class="nav-link router-link-active">博客</a></div><div class="nav-item"><a href="/project/" class="nav-link">项目</a></div><div class="nav-item"><a href="https://www.jianshu.com/u/778216ebe79c" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  简书
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/wch853" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">主页</a></div><div class="nav-item"><a href="/posts/" class="nav-link router-link-active">博客</a></div><div class="nav-item"><a href="/project/" class="nav-link">项目</a></div><div class="nav-item"><a href="https://www.jianshu.com/u/778216ebe79c" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  简书
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/wch853" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Java虚拟机</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/posts/jvm/深入理解Java虚拟机（一）：自动内存管理机制.html" class="sidebar-link">深入理解Java虚拟机（一）：自动内存管理机制</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Java并发编程</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>MyBatis 源码分析</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Spring Security 源码分析</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>微服务</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>微信小程序</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Elasticsearch</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id=""><a href="#" class="header-anchor">#</a></h1> <h2 id="安装centos"><a href="#安装centos" class="header-anchor">#</a> 安装CentOS</h2> <p>下载 <code>CentOS 7</code> 镜像，<a href="https://www.centos.org/download/" target="_blank" rel="noopener noreferrer">下载地址<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>。
+下载 <code>VMware</code>。
+安装新建虚拟机向导安装虚拟机，启动虚拟机。</p> <h2 id="安装gome桌面"><a href="#安装gome桌面" class="header-anchor">#</a> 安装GOME桌面</h2> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 安装 X Window System</span>
+yum groupinstall <span class="token string">&quot;X Window System&quot;</span>
+<span class="token comment"># 安装 GNOME 桌面</span>
+yum groupinstall <span class="token string">&quot;GNOME Desktop&quot;</span> <span class="token string">&quot;Graphical Administration Tools&quot;</span>
+<span class="token comment"># 设置默认使用图形界面启动</span>
+systemctl set-default graphical.target
+<span class="token comment"># 重启进入 GNOME 桌面</span>
+<span class="token function">reboot</span>
+</code></pre></div><h2 id="linux目录结构"><a href="#linux目录结构" class="header-anchor">#</a> Linux目录结构</h2> <p><code>bin</code>：<code>usr/bin</code>、<code>user/local/bin</code>，存放经常使用的命令。
+<code>sbin</code>：<code>usr/sbin</code>、<code>user/local/sbin</code>，存放系统管理员使用的系统管理命令。
+<code>home</code>：存放用户目录的目录，用户目录通常以用户名命名。
+<code>root</code>：超级管理员用户目录。
+<code>lib</code>：系统开机所需要最基本的动态连接共享库。
+<code>etc</code>：存放系统配置文件的目录。
+<code>usr</code>：用户安装的应用程序目录。
+<code>boot</code>：存放的是启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件。
+<code>proc</code>：是一个虚拟目录，是系统内存的映射，访问这个目录可以获取系统信息。
+<code>tmp</code>：存放临时文件的目录。
+<code>dev</code>：硬件用文件的形式存储所在的目录，相当于设备管理器。
+<code>media</code>：识别U盘、光驱后，linux会把识别的目录挂载到此目录下。
+<code>mnt</code>：临时挂载别的文件系统。
+<code>opt</code>：额外安装软件所在目录。
+<code>usr/local</code>：额外安装软件所在目录，一般是通过源码编译安装的程序的目录。
+<code>var</code>：存放不断扩充的文件，如日志文件。</p> <h2 id="vim命令"><a href="#vim命令" class="header-anchor">#</a> Vim命令</h2> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 进入编辑模式</span>
+i
+<span class="token comment"># 退出编辑模式</span>
+ESC
+<span class="token comment"># 复制当前行</span>
+yy
+<span class="token comment"># 粘贴</span>
+p
+<span class="token comment"># 删除当前行</span>
+<span class="token function">dd</span>
+<span class="token comment"># 进入查找</span>
+/
+<span class="token comment"># 查找下一个</span>
+n
+<span class="token comment"># 查看行号</span>
+:set nu
+<span class="token comment"># 关闭行号显示</span>
+:set nonu
+<span class="token comment"># 撤销修改</span>
+u
+<span class="token comment"># 定位到文件末尾</span>
+G
+<span class="token comment"># 定位到首行</span>
+gg
+<span class="token comment"># 定位到某行</span>
+<span class="token comment"># 先输入行号</span>
+<span class="token builtin class-name">shift</span> + g
+</code></pre></div><h2 id="关机-重启"><a href="#关机-重启" class="header-anchor">#</a> 关机 &amp; 重启</h2> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 立即关机</span>
+shutdow -h now / <span class="token function">halt</span>
+<span class="token comment"># 1分钟后关机</span>
+<span class="token function">shutdown</span> -h <span class="token number">1</span>
+<span class="token comment"># 重新启动</span>
+<span class="token function">reboot</span> / <span class="token function">shutdown</span> -r now
+<span class="token comment"># 将内存数据同步到磁盘</span>
+<span class="token function">sync</span>
+</code></pre></div><h2 id="登录-注销"><a href="#登录-注销" class="header-anchor">#</a> 登录 &amp; 注销</h2> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># SSH登录</span>
+<span class="token function">ssh</span> root@192.168.83.129
+<span class="token comment"># 注销</span>
+<span class="token builtin class-name">logout</span>
+</code></pre></div><h2 id="用户管理"><a href="#用户管理" class="header-anchor">#</a> 用户管理</h2> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 添加用户</span>
+<span class="token function">useradd</span> USER_NAME
+<span class="token comment"># 添加用户到指定组</span>
+<span class="token function">useradd</span> -g USER_NAME
+<span class="token comment"># 添加用户并指定用户目录</span>
+<span class="token function">useradd</span> -d /home/user USER_NAME
+<span class="token comment"># 为指定用户添加密码</span>
+<span class="token function">passwd</span> USER_NAME
+<span class="token comment"># 删除用户</span>
+<span class="token function">userdel</span> USER_NAME
+<span class="token comment"># 删除用户及用户目录</span>
+<span class="token function">userdel</span> -r USER_NAME
+<span class="token comment"># 查询用户信息</span>
+<span class="token function">id</span> USER_NAME
+</code></pre></div><p><code>/etc/passwd</code>：用户信息文件，用户名:口令:用户标识号:组标识号:注释性描述:主目录:登录Shell。
+<code>/etc/shadow</code>：口令配置文件，登录名:加密口令:最后一次修改时间:最小时间间隔:最大时间间隔:警
+告时间:不活动时间:失效时间:标志。
+<code>/etc/group</code>：组配置文件，组名:口令:组标识号:组内用户列表。</p> <h2 id="文件目录类命令"><a href="#文件目录类命令" class="header-anchor">#</a> 文件目录类命令</h2> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 显示当前目录的绝对路径</span>
+<span class="token builtin class-name">pwd</span>
+<span class="token comment"># 查看当前目录信息</span>
+<span class="token function">ls</span>
+<span class="token comment"># 显示当前目录所有的文件和目录，包括隐藏的</span>
+<span class="token function">ls</span> -a
+<span class="token comment"># 以列表的方式显示信息</span>
+<span class="token function">ls</span> -l / ll
+<span class="token comment"># 进入指定目录</span>
+<span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>DIRECTORY<span class="token punctuation">]</span>
+<span class="token comment"># 创建目录</span>
+<span class="token function">mkdir</span> <span class="token punctuation">[</span>DIRECTORY<span class="token punctuation">]</span>
+<span class="token comment"># 创建多级目录</span>
+<span class="token function">mkdir</span> -p <span class="token punctuation">[</span>DIRECTORY<span class="token punctuation">]</span>
+<span class="token comment"># 删除目录</span>
+<span class="token function">rmdir</span> <span class="token punctuation">[</span>DIRECTORY<span class="token punctuation">]</span>
+<span class="token comment"># 强制删除目录</span>
+<span class="token function">rm</span> -rf <span class="token punctuation">[</span>DIRECTORY<span class="token punctuation">]</span>
+<span class="token comment"># 创建文件</span>
+<span class="token function">touch</span> <span class="token punctuation">[</span>FILE<span class="token punctuation">]</span>
+<span class="token comment"># 复制文件</span>
+<span class="token function">cp</span> <span class="token punctuation">[</span>FILE<span class="token punctuation">]</span> <span class="token punctuation">[</span>DIRECTORY<span class="token punctuation">]</span>
+<span class="token comment"># 递归复制整个文件夹</span>
+<span class="token function">cp</span> -r <span class="token punctuation">[</span>DIRECTORY<span class="token punctuation">]</span> <span class="token punctuation">[</span>DIRECTORY<span class="token punctuation">]</span>
+<span class="token comment"># 移动文件或重命名</span>
+<span class="token function">mv</span> <span class="token punctuation">[</span>DIRECTORY<span class="token punctuation">]</span> <span class="token punctuation">[</span>DIRECTORY<span class="token punctuation">]</span>
+<span class="token comment"># 查看文本</span>
+<span class="token function">cat</span> <span class="token punctuation">[</span>FILE<span class="token punctuation">]</span>
+
+<span class="token comment"># more查看文本相关命令</span>
+<span class="token function">more</span> <span class="token punctuation">[</span>FILE<span class="token punctuation">]</span>
+<span class="token comment"># 退出</span>
+q
+<span class="token comment"># 向后翻页</span>
+Space
+<span class="token comment"># 向后一行</span>
+Enter
+<span class="token comment"># 向后滚一屏</span>
+Ctrl + F
+<span class="token comment"># 向前滚一屏</span>
+Ctrl + B
+<span class="token comment"># 输出当前行号</span>
+<span class="token operator">=</span>
+
+<span class="token comment"># less查看文本相关命令</span>
+<span class="token function">less</span> <span class="token punctuation">[</span>FILE<span class="token punctuation">]</span>
+<span class="token comment"># 退出</span>
+q
+<span class="token comment"># 向后翻页</span>
+Space / pgdn
+<span class="token comment"># 向前翻页</span>
+pgup
+<span class="token comment"># 查找</span>
+/
+<span class="token comment"># 向下查找</span>
+n
+<span class="token comment"># 向上查找</span>
+N
+
+<span class="token comment"># 输出内容到控制台</span>
+<span class="token builtin class-name">echo</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token comment"># 输出文本前N行内容</span>
+<span class="token function">head</span> -n N
+<span class="token comment"># 输出文本后N行内容</span>
+<span class="token function">tail</span> -n N
+<span class="token comment"># 输出重定向</span>
+<span class="token operator">&gt;</span>
+<span class="token comment"># 追加内容到文件</span>
+<span class="token operator">&gt;&gt;</span>
+<span class="token comment"># 查看历史命令</span>
+<span class="token function">history</span>
+<span class="token comment"># 查看日期</span>
+<span class="token function">date</span>
+<span class="token comment"># 查看日历</span>
+<span class="token function">cal</span>
+
+<span class="token comment"># 查找文件/目录</span>
+<span class="token function">find</span> <span class="token punctuation">[</span>PARENT_DIRECTORY<span class="token punctuation">]</span> -name <span class="token punctuation">[</span>FILE / DIRECTORY<span class="token punctuation">]</span>
+<span class="token comment"># 定位文件/目录</span>
+<span class="token function">locate</span> <span class="token punctuation">[</span>FILE / DIRECTORY<span class="token punctuation">]</span>
+<span class="token comment"># 压缩/解压gz文件</span>
+gizp / gunzip
+<span class="token comment"># 压缩/解压zip文件</span>
+<span class="token function">zip</span> / <span class="token function">unzip</span>
+
+<span class="token comment"># 生产.tar.gz文件</span>
+<span class="token function">tar</span> -c <span class="token punctuation">[</span>FILE / DIRECTORY<span class="token punctuation">]</span>
+<span class="token comment"># 显示详细信息</span>
+<span class="token function">tar</span> -v <span class="token punctuation">[</span>FILE<span class="token punctuation">]</span>
+<span class="token comment"># 指定压缩后的文件名</span>
+<span class="token function">tar</span> -f <span class="token punctuation">[</span>FILE<span class="token punctuation">]</span>
+<span class="token comment"># 打包同时压缩</span>
+<span class="token function">tar</span> -z <span class="token punctuation">[</span>FILE<span class="token punctuation">]</span>
+<span class="token comment"># 解压文件</span>
+<span class="token function">tar</span> -x <span class="token punctuation">[</span>FILE<span class="token punctuation">]</span>
+</code></pre></div><h2 id="权限管理"><a href="#权限管理" class="header-anchor">#</a> 权限管理</h2> <p>使用 <code>ls -l</code> 命令可以查看文件详细信息，其前缀 <code>-rwxrwxrwx</code> 标识权限，<code>r (read)</code>、<code>w (write)</code>、<code>x (execute)</code> 分别表示读、写、执行权限，它们用数字表示分别为4、2、1。</p> <ul><li>第0位确定文件类型（d, - , l , c , b）</li> <li>第1-3位标识文件所有者对该文件的权限（user权限）。</li> <li>第4-6位标识所属组对该文件的权限（group权限）。</li> <li>第7-9位标识其他用户对该文件的权限（other权限）。</li></ul> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 修改文件权限</span>
+<span class="token function">chmod</span> u+x <span class="token punctuation">[</span>FILE<span class="token punctuation">]</span> / <span class="token function">chmod</span> <span class="token number">777</span> <span class="token punctuation">[</span>FILE<span class="token punctuation">]</span>
+</code></pre></div><h2 id="rpm"><a href="#rpm" class="header-anchor">#</a> rpm</h2> <p><code>rpm (RedHat Package Manager)</code> 是一种软件包的下载和安装工具。
+<code>yum</code>是一个shell前端软件包管理器。基于 <code>rpm</code> 包管理，能够从指定的服务器自动下载RPM包并且安装，可以自动处理依赖性关系，并
+且一次安装所有依赖的软件包。</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 查询已安装rpm包列表</span>
+<span class="token function">rpm</span> -qa
+<span class="token comment"># 卸载rpm包</span>
+<span class="token function">rpm</span> -e <span class="token punctuation">[</span>PACKAGE_NAME<span class="token punctuation">]</span>
+<span class="token comment"># 从yum服务器查看软件列表</span>
+yum list
+<span class="token comment"># 安装软件</span>
+yum <span class="token function">install</span> <span class="token punctuation">[</span>PACKAGE_NAME<span class="token punctuation">]</span>
+</code></pre></div><h2 id="安装jdk"><a href="#安装jdk" class="header-anchor">#</a> 安装JDK</h2> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 查询默认安装的openjdk的rpm包</span>
+<span class="token function">rpm</span> -qa <span class="token operator">|</span> <span class="token function">grep</span> openjdk
+<span class="token comment"># 强制卸载openjdk</span>
+<span class="token function">rpm</span> -e --nodeps <span class="token punctuation">[</span>PACKAGE_NAME<span class="token punctuation">]</span>
+
+<span class="token comment"># 下载jdk</span>
+<span class="token function">wget</span> <span class="token punctuation">[</span>URL<span class="token punctuation">]</span>
+<span class="token comment"># 解压jdk压缩包</span>
+<span class="token function">tar</span> -zxvf jdk-8u191-linux-x64.tar.gz
+<span class="token comment"># 设置Java环境变量</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">JAVA_HOME</span><span class="token operator">=</span>/opt/jdk1.8.0_191
+<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token variable">$JAVA_HOME</span>/bin:<span class="token environment constant">$PATH</span>
+
+<span class="token comment"># 检验Java</span>
+java -version
+<span class="token comment"># 查看当前java执行路径</span>
+<span class="token function">which</span> java
+</code></pre></div><h2 id="防火墙端口限制"><a href="#防火墙端口限制" class="header-anchor">#</a> 防火墙端口限制</h2> <div class="language-·bash extra-class"><pre class="language-text"><code># 查看防火墙当前状态
+systemctl status firewalld
+# 开启端口
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+# 屏蔽端口
+firewall-cmd --zone=public --remove-port=80/tcp --permanent
+# 重新载入配置
+firewall-cmd --reload
+# 查看已开启端口
+firewall-cmd --zone=public --list-ports
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.15a66b26.js" defer></script><script src="/assets/js/2.92cd0f37.js" defer></script><script src="/assets/js/48.b63bb42b.js" defer></script>
+  </body>
+</html>

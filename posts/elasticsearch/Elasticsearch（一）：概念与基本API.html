@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Elasticsearch（一）：概念与基本API | wch的个人主页</title>
+    <meta name="description" content="用于分享wch的学习笔记和项目~">
+    <link rel="icon" href="/favicon.ico">
+    
+    <link rel="preload" href="/assets/css/0.styles.74c45c5d.css" as="style"><link rel="preload" href="/assets/js/app.15a66b26.js" as="script"><link rel="preload" href="/assets/js/2.92cd0f37.js" as="script"><link rel="preload" href="/assets/js/12.7802c7ba.js" as="script"><link rel="prefetch" href="/assets/js/10.1166f652.js"><link rel="prefetch" href="/assets/js/11.b6ae0b14.js"><link rel="prefetch" href="/assets/js/13.63066938.js"><link rel="prefetch" href="/assets/js/14.1f9fa0d5.js"><link rel="prefetch" href="/assets/js/15.6c758eca.js"><link rel="prefetch" href="/assets/js/16.58440a84.js"><link rel="prefetch" href="/assets/js/17.1e1f5c53.js"><link rel="prefetch" href="/assets/js/18.28115609.js"><link rel="prefetch" href="/assets/js/19.7e395424.js"><link rel="prefetch" href="/assets/js/20.2c2ea5f8.js"><link rel="prefetch" href="/assets/js/21.1e8ef167.js"><link rel="prefetch" href="/assets/js/22.47a8f5b7.js"><link rel="prefetch" href="/assets/js/23.f507c548.js"><link rel="prefetch" href="/assets/js/24.b19f43b8.js"><link rel="prefetch" href="/assets/js/25.5b1882b0.js"><link rel="prefetch" href="/assets/js/26.16cf6f8a.js"><link rel="prefetch" href="/assets/js/27.6f3498d0.js"><link rel="prefetch" href="/assets/js/28.f56b7e3c.js"><link rel="prefetch" href="/assets/js/29.de1da78b.js"><link rel="prefetch" href="/assets/js/3.73d3287d.js"><link rel="prefetch" href="/assets/js/30.108b25a0.js"><link rel="prefetch" href="/assets/js/31.68af7d35.js"><link rel="prefetch" href="/assets/js/32.c9f05837.js"><link rel="prefetch" href="/assets/js/33.13bd6f64.js"><link rel="prefetch" href="/assets/js/34.59041fd7.js"><link rel="prefetch" href="/assets/js/35.4382a261.js"><link rel="prefetch" href="/assets/js/36.01d6324a.js"><link rel="prefetch" href="/assets/js/37.22e4179e.js"><link rel="prefetch" href="/assets/js/38.f553994e.js"><link rel="prefetch" href="/assets/js/39.a72bb5df.js"><link rel="prefetch" href="/assets/js/4.9a52aae5.js"><link rel="prefetch" href="/assets/js/40.3751cd34.js"><link rel="prefetch" href="/assets/js/41.d351ec5d.js"><link rel="prefetch" href="/assets/js/42.b87a3eae.js"><link rel="prefetch" href="/assets/js/43.7035de8a.js"><link rel="prefetch" href="/assets/js/44.2c18f0bc.js"><link rel="prefetch" href="/assets/js/45.52905280.js"><link rel="prefetch" href="/assets/js/46.abb047a4.js"><link rel="prefetch" href="/assets/js/47.2ac230d3.js"><link rel="prefetch" href="/assets/js/48.b63bb42b.js"><link rel="prefetch" href="/assets/js/49.35752ae9.js"><link rel="prefetch" href="/assets/js/5.36029518.js"><link rel="prefetch" href="/assets/js/50.b6bd912f.js"><link rel="prefetch" href="/assets/js/51.0e0db65f.js"><link rel="prefetch" href="/assets/js/52.d15fb17a.js"><link rel="prefetch" href="/assets/js/53.844345be.js"><link rel="prefetch" href="/assets/js/54.52685e8c.js"><link rel="prefetch" href="/assets/js/55.83a99fe0.js"><link rel="prefetch" href="/assets/js/56.fe26d3a3.js"><link rel="prefetch" href="/assets/js/57.dae36566.js"><link rel="prefetch" href="/assets/js/58.1bfd28b1.js"><link rel="prefetch" href="/assets/js/59.88f55364.js"><link rel="prefetch" href="/assets/js/6.d3b55a54.js"><link rel="prefetch" href="/assets/js/7.af0443ed.js"><link rel="prefetch" href="/assets/js/8.2c9a7ea2.js"><link rel="prefetch" href="/assets/js/9.c08dcf83.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.74c45c5d.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">wch的个人主页</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">主页</a></div><div class="nav-item"><a href="/posts/" class="nav-link router-link-active">博客</a></div><div class="nav-item"><a href="/project/" class="nav-link">项目</a></div><div class="nav-item"><a href="https://www.jianshu.com/u/778216ebe79c" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  简书
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/wch853" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">主页</a></div><div class="nav-item"><a href="/posts/" class="nav-link router-link-active">博客</a></div><div class="nav-item"><a href="/project/" class="nav-link">项目</a></div><div class="nav-item"><a href="https://www.jianshu.com/u/778216ebe79c" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  简书
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/wch853" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Java虚拟机</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Java并发编程</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>MyBatis 源码分析</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Spring Security 源码分析</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>微服务</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>微信小程序</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Elasticsearch</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/posts/elasticsearch/Elasticsearch（一）：概念与基本API.html" class="active sidebar-link">Elasticsearch（一）：概念与基本API</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（一）：概念与基本API.html#安装-elasticsearch" class="sidebar-link">安装 Elasticsearch</a></li><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（一）：概念与基本API.html#常用-api" class="sidebar-link">常用 API</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（一）：概念与基本API.html#index" class="sidebar-link">index</a></li><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（一）：概念与基本API.html#document" class="sidebar-link">Document</a></li></ul></li><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（一）：概念与基本API.html#倒排索引与分词" class="sidebar-link">倒排索引与分词</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（一）：概念与基本API.html#倒排索引" class="sidebar-link">倒排索引</a></li><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（一）：概念与基本API.html#分词" class="sidebar-link">分词</a></li></ul></li><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（一）：概念与基本API.html#mapping" class="sidebar-link">mapping</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（一）：概念与基本API.html#mapping-配置" class="sidebar-link">mapping 配置</a></li><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（一）：概念与基本API.html#dynamic-mapping" class="sidebar-link">dynamic mapping</a></li><li class="sidebar-sub-header"><a href="/posts/elasticsearch/Elasticsearch（一）：概念与基本API.html#dynamic-templates" class="sidebar-link">dynamic templates</a></li></ul></li></ul></li><li><a href="/posts/elasticsearch/Elasticsearch（二）：SearchAPI.html" class="sidebar-link">Elasticsearch（二）：SearchAPI</a></li><li><a href="/posts/elasticsearch/Elasticsearch（三）：集群特性.html" class="sidebar-link">Elasticsearch（三）：集群特性</a></li><li><a href="/posts/elasticsearch/Elasticsearch（四）：Search运行机制.html" class="sidebar-link">Elasticsearch（四）：Search运行机制</a></li><li><a href="/posts/elasticsearch/Elasticsearch（五）：聚合分析.html" class="sidebar-link">Elasticsearch（五）：聚合分析</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="elasticsearch（一）：概念与基本api"><a href="#elasticsearch（一）：概念与基本api" class="header-anchor">#</a> Elasticsearch（一）：概念与基本API</h1> <h2 id="安装-elasticsearch"><a href="#安装-elasticsearch" class="header-anchor">#</a> 安装 Elasticsearch</h2> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 创建 es 网络</span>
+docker network create es
+<span class="token comment"># 启动单点 es</span>
+docker run -d --name elasticsearch --net es -p <span class="token number">9200</span>:9200 -p <span class="token number">9300</span>:9300 -e <span class="token string">&quot;discovery.type=single-node&quot;</span> --restart<span class="token operator">=</span>always elasticsearch:7.4.2
+<span class="token comment"># 启动 kibana</span>
+docker run -d --name kibana --net es -p <span class="token number">5601</span>:5601 --restart<span class="token operator">=</span>always kibana:7.4.2
+<span class="token comment"># 启动 es 集群监控工具 cerebro</span>
+docker run -d --name cerebro -p <span class="token number">9000</span>:9000 --restart<span class="token operator">=</span>always lmenezes/cerebro
+</code></pre></div><h2 id="常用-api"><a href="#常用-api" class="header-anchor">#</a> 常用 API</h2> <h3 id="index"><a href="#index" class="header-anchor">#</a> index</h3> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// 创建索引</span>
+<span class="token constant">PUT</span> <span class="token operator">/</span>test
+<span class="token comment">// 查看已有索引</span>
+<span class="token constant">GET</span> <span class="token operator">/</span>_cat<span class="token operator">/</span>indices
+<span class="token comment">// 删除索引</span>
+<span class="token constant">DELETE</span> test
+</code></pre></div><h3 id="document"><a href="#document" class="header-anchor">#</a> Document</h3> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// 指定 id 创建文档</span>
+<span class="token constant">PUT</span> <span class="token operator">/</span>test<span class="token operator">/</span>_doc<span class="token operator">/</span><span class="token number">1</span>
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;username&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;wch&quot;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 不指定 id 创建文档</span>
+<span class="token constant">POST</span> <span class="token operator">/</span>test<span class="token operator">/</span>_doc
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;username&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;wch&quot;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 查询指定文档</span>
+<span class="token constant">GET</span> <span class="token operator">/</span>test<span class="token operator">/</span>_doc<span class="token operator">/</span><span class="token number">1</span>
+
+<span class="token comment">// 查询所有文档</span>
+<span class="token constant">GET</span> <span class="token operator">/</span>test<span class="token operator">/</span>_search
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;query&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;term&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">&quot;_id&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;value&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;1&quot;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 删除指定文档</span>
+<span class="token constant">DELETE</span> <span class="token operator">/</span>test<span class="token operator">/</span>_doc<span class="token operator">/</span><span class="token number">1</span>
+
+<span class="token comment">// 批量执行</span>
+<span class="token constant">POST</span> _bulk
+<span class="token punctuation">{</span><span class="token string">&quot;index&quot;</span><span class="token punctuation">:</span><span class="token punctuation">{</span><span class="token string">&quot;_index&quot;</span><span class="token punctuation">:</span><span class="token string">&quot;test&quot;</span><span class="token punctuation">}</span><span class="token punctuation">}</span>	
+<span class="token punctuation">{</span><span class="token string">&quot;username&quot;</span><span class="token punctuation">:</span><span class="token string">&quot;123&quot;</span><span class="token punctuation">}</span>	<span class="token comment">// 指定索引新增</span>
+<span class="token punctuation">{</span><span class="token string">&quot;delete&quot;</span><span class="token punctuation">:</span><span class="token punctuation">{</span><span class="token string">&quot;_index&quot;</span><span class="token punctuation">:</span><span class="token string">&quot;test&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;_id&quot;</span><span class="token punctuation">:</span><span class="token string">&quot;wAKA5G4B6QyCVohhC0Yn&quot;</span><span class="token punctuation">}</span><span class="token punctuation">}</span>	<span class="token comment">// 指定索引删除</span>
+<span class="token punctuation">{</span><span class="token string">&quot;update&quot;</span><span class="token punctuation">:</span><span class="token punctuation">{</span><span class="token string">&quot;_index&quot;</span><span class="token punctuation">:</span><span class="token string">&quot;test&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;_id&quot;</span><span class="token punctuation">:</span><span class="token string">&quot;1&quot;</span><span class="token punctuation">}</span><span class="token punctuation">}</span>
+<span class="token punctuation">{</span><span class="token string">&quot;doc&quot;</span><span class="token punctuation">:</span><span class="token punctuation">{</span><span class="token string">&quot;username&quot;</span><span class="token punctuation">:</span><span class="token string">&quot;wch1&quot;</span><span class="token punctuation">}</span><span class="token punctuation">}</span>	<span class="token comment">// 指定索引更新</span>
+
+<span class="token comment">// 指定 index、id 批量查询</span>
+<span class="token constant">GET</span> <span class="token operator">/</span>_mget
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;docs&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token string">&quot;_index&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;test&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;_id&quot;</span><span class="token punctuation">:</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      <span class="token string">&quot;_index&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;test&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;_id&quot;</span><span class="token punctuation">:</span> <span class="token number">2</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="倒排索引与分词"><a href="#倒排索引与分词" class="header-anchor">#</a> 倒排索引与分词</h2> <h3 id="倒排索引"><a href="#倒排索引" class="header-anchor">#</a> 倒排索引</h3> <h4 id="倒排索引与正排索引"><a href="#倒排索引与正排索引" class="header-anchor">#</a> 倒排索引与正排索引</h4> <ul><li>正排索引：从文档 <code>id</code> 到文档内容单词的关联关系。</li> <li>倒排索引：从单词到文档 <code>id</code> 的关联关系。</li></ul> <h4 id="倒排索引组成"><a href="#倒排索引组成" class="header-anchor">#</a> 倒排索引组成</h4> <ul><li>单词词典：记录文档单词和单词到倒排列表的关联信息。</li> <li>倒排列表：记录了单词对应的文档集合，由倒排索引项组成。倒排索引项包括文档 <code>id</code>、单词词频、单词位置、单词偏移。</li></ul> <h3 id="分词"><a href="#分词" class="header-anchor">#</a> 分词</h3> <p>分词是指将文本转换成一系列单词的过程，也可以叫做文本分析。</p> <h4 id="分词器组成"><a href="#分词器组成" class="header-anchor">#</a> 分词器组成</h4> <ul><li><code>Character Filters</code>：针对原始文本做预处理，如去增加、删除、替换字符等。</li> <li><code>Tokenizer</code>：将原始文本按照一定规则切分为单词。</li> <li><code>Token Filters</code>：针对切分单词再加工，如转小写、删除或新增等处理。</li></ul> <h4 id="验证分词"><a href="#验证分词" class="header-anchor">#</a> 验证分词</h4> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// 指定分词器验证分词</span>
+<span class="token constant">GET</span> <span class="token operator">/</span>_analyze
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;analyzer&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;standard&quot;</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;text&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token string">&quot;Hello World&quot;</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 指定索引、文档字段验证分词</span>
+<span class="token constant">GET</span> <span class="token operator">/</span>test<span class="token operator">/</span>_analyze
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;field&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;username&quot;</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;text&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;Hello World&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="自带分词器"><a href="#自带分词器" class="header-anchor">#</a> 自带分词器</h4> <h5 id="standard"><a href="#standard" class="header-anchor">#</a> standard</h5> <p>默认分词器，按词切分，支持多语言，小写处理。</p> <h5 id="simple"><a href="#simple" class="header-anchor">#</a> simple</h5> <p>按照非字母切分，小写处理。</p> <h5 id="whitespace"><a href="#whitespace" class="header-anchor">#</a> whitespace</h5> <p>按空格切分。</p> <h5 id="stop"><a href="#stop" class="header-anchor">#</a> stop</h5> <p>按照非字母切分，小写处理，去除停用词。</p> <h5 id="keyword"><a href="#keyword" class="header-anchor">#</a> keyword</h5> <p>不分词，直接作为一个单词输出。</p> <h5 id="pattern"><a href="#pattern" class="header-anchor">#</a> pattern</h5> <p>通过正则表达式（默认为 <code>\W+</code>）切分，小写处理。</p> <h2 id="mapping"><a href="#mapping" class="header-anchor">#</a> mapping</h2> <p><code>mapping</code> 类似数据库中的表结构定义，主要作用为：</p> <ul><li>定义索引字段名</li> <li>定义索引字段类型</li> <li>定义倒排索引相关配置，如是否索引、索引配置等</li></ul> <p><code>mapping</code> 中的字段类型禁止直接修改（<code>lucene</code> 实现的倒排索引生成后不允许修改），如果修改需要建立新的索引，然后做 <code>reindex</code> 操作。</p> <h3 id="mapping-配置"><a href="#mapping-配置" class="header-anchor">#</a> mapping 配置</h3> <div class="language-js extra-class"><pre class="language-js"><code><span class="token constant">PUT</span> <span class="token operator">/</span>test
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;mappings&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;dynamic&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;true&quot;</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;properties&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">&quot;name&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;type&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;text&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;fields&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          <span class="token string">&quot;pinyin&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            <span class="token string">&quot;type&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;keyword&quot;</span><span class="token punctuation">,</span>
+            <span class="token string">&quot;analyzer&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;pinyin&quot;</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;age&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;type&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;integer&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;null_value&quot;</span><span class="token punctuation">:</span> <span class="token number">0</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;desc&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;type&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;keyword&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;index&quot;</span><span class="token punctuation">:</span> <span class="token boolean">false</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;address&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;type&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;text&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;index_options&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;positions&quot;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="dynamic"><a href="#dynamic" class="header-anchor">#</a> dynamic</h4> <p><code>mapping</code> 中的 <code>dynamic</code> 参数用来控制字段的新增：</p> <ul><li><code>true</code>：默认配置，允许字段新增。</li> <li><code>false</code>：不允许字段新增字段，但是文档可以正常写入，但无法对字段进行查询等操作。</li> <li><code>strict</code>：文档不允许写入新字段，强行写入会抛出异常。</li></ul> <h4 id="properties"><a href="#properties" class="header-anchor">#</a> properties</h4> <p><code>properties</code> 参数用来定义各个具体的字段。</p> <h4 id="index-2"><a href="#index-2" class="header-anchor">#</a> index</h4> <p><code>index</code> 参数用于控制字段是否索引。</p> <h4 id="index-options"><a href="#index-options" class="header-anchor">#</a> index_options</h4> <p><code>index_options</code> 用于控制倒排索引记录内容：</p> <ul><li><code>docs</code>：仅记录 <code>doc id</code>。</li> <li><code>freqs</code>：记录 <code>doc id</code> 和 <code>term frequencies</code>。</li> <li><code>positions</code>：记录 <code>doc id</code>、<code>term frequencies</code> 和 <code>term position</code>。</li> <li><code>offsets</code>：记录 <code>doc id</code>、<code>term frequencies</code>、<code>term position</code> 和 <code>character offsets</code>。</li></ul> <p><code>text</code> 类型默认为 <code>positions</code>，其它默认为 <code>docs</code>。选择记录的内容越多，占用空间越大。</p> <h4 id="null-value"><a href="#null-value" class="header-anchor">#</a> null_value</h4> <p><code>null_value</code> 字段用于指定字段为 <code>null</code> 时的处理策略，默认 <code>es</code> 会忽略该字段。可以通过该值来设定字段的默认值。</p> <h4 id="multi-fields"><a href="#multi-fields" class="header-anchor">#</a> multi-fields</h4> <p><code>es</code> 允许对一个字段采用不同的配置，只需要在字段配置中增加 <code>fields</code> 参数，成为当前字段的子字段。</p> <h3 id="dynamic-mapping"><a href="#dynamic-mapping" class="header-anchor">#</a> dynamic mapping</h3> <p>如果 <code>mapping</code> 配置允许直接写入新字段，<code>es</code> 会对新字段的类型进行推测并写入 <code>mapping</code>。推测是基于 <code>json</code> 类型的：</p> <table><thead><tr><th>JSON 类型</th> <th>Elasticsearch 类型</th></tr></thead> <tbody><tr><td>null</td> <td>忽略</td></tr> <tr><td>boolean</td> <td>boolean</td></tr> <tr><td>float</td> <td>float</td></tr> <tr><td>integer</td> <td>long</td></tr> <tr><td>object</td> <td>object</td></tr> <tr><td>array</td> <td>基于数组第一个非 <code>null</code> 值的类型</td></tr> <tr><td>string</td> <td>会对日期、浮点、整型做推断，否则设置为 <code>text</code> 类型并包含 <code>keyword</code> 子字段</td></tr></tbody></table> <h3 id="dynamic-templates"><a href="#dynamic-templates" class="header-anchor">#</a> dynamic templates</h3> <p>通过定义 <code>dynamic templates</code> 可以介入 <code>dynamic mapping</code> 的映射逻辑，</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token constant">PUT</span> <span class="token operator">/</span>test
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;mappings&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;dynamic_templates&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">&quot;string_as_keyword&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          <span class="token string">&quot;match_mapping_type&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span>
+          <span class="token string">&quot;mapping&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            <span class="token string">&quot;type&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;keyword&quot;</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><code>match_mapping_type</code> 参数对应推断出来的 <code>json</code> 类型，当写入字段匹配到该类型，会自动转为配置的类型。</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/posts/mp/使用云开发构建多媒体小程序.html" class="prev">使用云开发构建多媒体小程序</a></span> <span class="next"><a href="/posts/elasticsearch/Elasticsearch（二）：SearchAPI.html">Elasticsearch（二）：SearchAPI</a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.15a66b26.js" defer></script><script src="/assets/js/2.92cd0f37.js" defer></script><script src="/assets/js/12.7802c7ba.js" defer></script>
+  </body>
+</html>
